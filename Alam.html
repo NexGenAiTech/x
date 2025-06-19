@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocSwift -Alamgeer Document Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://icon-library.com/images/home-icon-transparent/home-icon-transparent-26.jpg">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #0ea5e9;
+            --accent: #8b5cf6;
+            --light: #f0f9ff;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --success: #10b981;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            padding: 15px 0;
+            justify-content: center;
+        }
+
+        .logo-icon {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128c7e;
+            transform: translateY(-3px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-text {
+            width: 100%;
+        }
+
+        .hero-image {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .highlight {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            top: -100px;
+            right: -100px;
+            z-index: 1;
+            opacity: 0.1;
+            animation: blobAnimation 20s infinite linear;
+        }
+
+        @keyframes blobAnimation {
+            0% { transform: rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            33% { transform: rotate(120deg); border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            66% { transform: rotate(240deg); border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+            100% { transform: rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        }
+
+        /* Services Section */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .service-icon i {
+            font-size: 36px;
+            color: white;
+        }
+
+        .service-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .service-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .service-old-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+
+        .service-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .service-buttons .btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        /* How it Works */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: var(--shadow);
+            border: 3px solid var(--light);
+        }
+
+        .step-icon i {
+            font-size: 26px;
+            color: var(--primary);
+        }
+
+        .step h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            color: var(--gray);
+            max-width: 250px;
+            margin: 0 auto;
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px 20px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-contact li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+            font-size: 18px;
+            margin-top: 4px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* Document Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .documents-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .documents-list li {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .documents-list li i {
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/+919118862820" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Document Modal -->
+    <div class="modal" id="documentModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalServiceTitle">Service Name</h2>
+            <h3>Required Documents:</h3>
+            <ul class="documents-list" id="documentsList">
+                <!-- Documents will be added here dynamically -->
+            </ul>
+            <a href="#" class="btn btn-whatsapp" id="whatsappApplyBtn" style="margin-top: 15px;">
+                <i class="fab fa-whatsapp"></i> Ask for Required Documents
+            </a>
+        </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">DS</div>
+            <div class="logo-text">DocSwift</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-blob"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Get Your <span class="highlight">Government Documents</span> Without The Hassle</h1>
+                    <p>Apply for certificates, licenses, and more with our fast, secure, and user-friendly service, All from Home.</p>
+                    <div class="cta-buttons" style="display: flex; gap: 15px; justify-content: center;">
+                        <a href="#services" class="btn btn-primary">Get Started</a>
+                        <a href="#process" class="btn btn-outline">How It Works</a>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Documents</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">99%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-image">
+                <img src="https://socialmarketingfella.com/wp-content/uploads/2016/10/revolution.jpg" alt="Document Services" style="border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); max-width: 100%;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Premium Services</h2>
+                <p class="section-subtitle">One-stop solution for all your document needs</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service Card 1 - Caste Certificate -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Caste Certificate</h3>
+                        <p>Official certificate for caste verification required for government schemes</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹100</span>
+                            <span>₹49</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Caste Certificate">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Caste Certificate">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 - Income Certificate -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Income Certificate</h3>
+                        <p>Proof of annual income for educational and financial benefits</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹100</span>
+                            <span>₹49</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Income Certificate">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Income Certificate">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 3 - Domicile Certificate -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-house-user"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Domicile Certificate</h3>
+                        <p>Proof of residence in a particular state or union territory</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹100</span>
+                            <span>₹49</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Domicile Certificate">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Domicile Certificate">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 4 - Birth Certificate -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Birth Certificate</h3>
+                        <p>Official record of birth required for admission, passport, etc.</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹1000</span>
+                            <span>₹599</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Birth Certificate">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Birth Certificate">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 5 - Death Certificate -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-book-dead"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Death Certificate</h3>
+                        <p>Official record of death for legal and financial settlements</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹1000</span>
+                            <span>₹499</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Death Certificate">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Death Certificate">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 6 - Driving License -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Driving License</h3>
+                        <p>Official authorization to drive motor vehicles on public roads</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹5000</span>
+                            <span>₹3199</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Driving License">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Driving License">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 7 - Shop License -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Scholarship Registration</h3>
+                        <p>License required to legally operate a commercial establishment</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹200</span>
+                            <span>₹99</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Scholarship Registration">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Scholarship Registration">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 8 - Food License -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Exam Registration</h3>
+                        <p>Apply JEE, NEET, CUET, SSC exams—one smart trusted platform.</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹200</span>
+                            <span>₹99</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Exam Registration">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Exam Registration">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 9 - PAN Card -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-address-card"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>PAN Card</h3>
+                        <p>Permanent Account Number required for financial transactions</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹300</span>
+                            <span>₹149</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="PAN Card">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="PAN Card">Documents</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="process">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Simple 4-step process to get your documents</p>
+            </div>
+            
+            <div class="process-steps">
+                <!-- Step 1 -->
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h4>Select Service</h4>
+                    <p>Choose the document you need from our services</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h4>Fill Details</h4>
+                    <p>Complete our simple online form with your information</p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h4>Upload Documents</h4>
+                    <p>Securely upload required documents</p>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h4>Get Approved</h4>
+                    <p>Receive your document Fast, Secure & Hassle-Free From Home!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="container">
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to Get Your Documents?</h2>
+                <p>Join thousands of satisfied customers who have streamlined their document process</p>
+                <a href="https://wa.me/919118862820" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Say Hello — We’re Ready to Help!
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DocSwift</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Your premium partner for all government document services.</p>
+                    <div class="social-links">
+                        <a href="https://m.facebook.com/105765715654261/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://shorturl.at/KfFTv"><i class="fab fa-instagram"></i></a>
+                        <a href="https://shorturl.at/KfFTv"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.linkedin.com/in/nexgenaitech-jahid-ansari-99baa234a?trk=contact-info"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Our Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Caste Certificate</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Income Certificate</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Domicile Certificate</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Driving License</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> PAN Card</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>Salemgarh kushinagar 274409 </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <div>rktec540@gmail.com</div>
+                        </li>
+                        <li>
+                            <i class="fab fa-whatsapp"></i>
+                            <div>+91 91XXXXX820 </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 NexGenAiTech. All Rights Reserved. | Alamgeer Cyber Cafe
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Document requirements for each service
+        const documentRequirements = {
+            "Caste Certificate": [
+                "Aadhaar Card (Photo)",
+                "Ration Card (Photo)",
+                "Passport size photo",
+                "Self-declaration (if Available)",
+                "Pan Card (if Available)",
+                
+            ],
+            "Income Certificate": [
+                "Aadhaar Card (Photo)",
+                "Ration Card (Photo)",
+                "Passport size photo",
+                "Self-declaration (if Available)",
+                "Pan Card (if Available)",
+                "Salary Slips if Available (Last 3 months)",
+                
+               
+            ],
+            "Domicile Certificate": [
+                "Aadhaar Card (Photo)",
+                "Ration Card (Photo)",
+                "Passport size photo",
+                "Self-declaration (if Available)",
+                "Pan Card (if Available)",
+                
+            ],
+            "Birth Certificate": [
+                "Hospital Birth Record",
+                "Parent's ID Proof",
+                "Parent's Marriage Certificate",
+                "Proof of Residence",
+                "Applicant's ID Proof"
+            ],
+            "Death Certificate": [
+                 "Aadhaar Card (Photo)",
+                "Passport size photo",
+                "Hospital Death Record",
+                "Applicant's ID Proof",
+                "Deceased ID Proof",
+                "Proof of Residence",
+                "Relationship Proof"
+            ],
+            "Driving License": [
+                "Aadhaar Card (Copy)",
+                "Proof of Age (Birth Certificate)",
+                "Proof of Residence",
+                "Passport Size Photos (2)",
+                "Medical Certificate",
+                "Learner's License"
+            ],
+            "Scholarship Registration": [
+                "Aadhaar Card (Photo)",
+                "Income certificate",
+                "Caste certificate",
+                "Domicile certificate",
+                "Bank passbook",
+                "Passport Size Photos"
+            
+            ],
+
+            "Exam Registration": [
+                "Aadhaar Card (Copy)",
+                "PAN Card (Copy)",
+                "Caste Certificate",
+                "Class X & XII Marksheets",
+                "Passport Size Photos "
+               
+            ],
+            "PAN Card": [
+                "Aadhaar Card (Copy)",
+                "Proof of Identity",
+                "Proof of Address",
+                "Passport Size Photo",
+                "Date of Birth Proof",
+                "Application Form (Signed)"
+            ]
+        };
+
+        // WhatsApp number
+        const whatsappNumber = "+919118862820";
+
+        // Modal functionality
+        const modal = document.getElementById('documentModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalServiceTitle');
+        const documentsList = document.getElementById('documentsList');
+        const whatsappApplyBtn = document.getElementById('whatsappApplyBtn');
+
+        // Apply Now buttons
+        document.querySelectorAll('.apply-now').forEach(button => {
+            button.addEventListener('click', function() {
+                const serviceName = this.getAttribute('data-service');
+                const whatsappMessage = `Hello, I would like to apply for ${serviceName}. Please send me list of  the required documents and application process.`;
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+            });
+        });
+
+        // Required Documents buttons
+        document.querySelectorAll('.req-docs').forEach(button => {
+            button.addEventListener('click', function() {
+                const serviceName = this.getAttribute('data-service');
+                showDocumentModal(serviceName);
+            });
+        });
+
+        function showDocumentModal(serviceName) {
+            modalTitle.textContent = serviceName;
+            documentsList.innerHTML = '';
+            
+            if (documentRequirements[serviceName]) {
+                documentRequirements[serviceName].forEach(doc => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas fa-check-circle"></i> ${doc}`;
+                    documentsList.appendChild(li);
+                });
+                
+                const whatsappMessage = `Hi, can you please send me the list of documents needed for ${serviceName}. Thanks a lot!.`;
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                whatsappApplyBtn.href = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+                
+                modal.style.display = 'flex';
+            }
+        }
+
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
