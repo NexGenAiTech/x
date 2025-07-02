@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocSwift -  Document Services</title>
+    <title>DocSwift - Document Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet"> 
-    <link rel="icon" href="https://cdn.prod.website-files.com/624ac40503a527cf47af4192/659ba59520d886f0cb86d3ba_ai-logo-generator-4.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://img.freepik.com/premium-photo/isometric-illustration-technology-monitor-components_951562-33886.jpg">
     <style>
         :root {
             --primary: #2563eb;
@@ -22,6 +22,12 @@
             --glass-border: rgba(255, 255, 255, 0.2);
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            --referral: #f59e0b;
+            --referral-dark: #d97706;
+            --google-blue: #4285F4;
+            --google-green: #34A853;
+            --google-yellow: #FBBC05;
+            --google-red: #EA4335;
         }
 
         * {
@@ -55,6 +61,7 @@
         }
 
         .logo-icon {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             width: 40px;
             height: 40px;
             background: var(--primary);
@@ -68,7 +75,7 @@
         }
 
         .logo-text {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             font-size: 24px;
             font-weight: 800;
             background: linear-gradient(to right, var(--primary), var(--secondary));
@@ -124,6 +131,55 @@
             background: #128c7e;
             transform: translateY(-3px);
         }
+        
+        .btn-referral {
+            background: linear-gradient(to right, var(--referral), var(--referral-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .btn-referral:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        .btn-google {
+            background: white;
+            color: var(--dark);
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .btn-google:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .google-logo {
+            display: inline-flex;
+            font-weight: 700;
+            position: relative;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .google-logo span {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .google-blue { background-color: var(--google-blue); top: 0; left: 0; }
+        .google-red { background-color: var(--google-red); top: 0; right: 0; }
+        .google-yellow { background-color: var(--google-yellow); bottom: 0; left: 0; }
+        .google-green { background-color: var(--google-green); bottom: 0; right: 0; }
 
         /* Hero Section */
         .hero {
@@ -545,6 +601,38 @@
             70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
+        
+        /* Referral Floating Button */
+        .referral-btn {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(to bottom, var(--referral), var(--referral-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            z-index: 999;
+            transition: var(--transition);
+            animation: pulse-referral 2s infinite;
+            cursor: pointer;
+        }
+        
+        .referral-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        }
+        
+        @keyframes pulse-referral {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
 
         /* Document Modal */
         .modal {
@@ -578,6 +666,7 @@
             font-size: 22px;
             cursor: pointer;
             color: var(--gray);
+            z-index: 100;
         }
 
         .modal-title {
@@ -603,13 +692,315 @@
         .documents-list li i {
             color: var(--success);
         }
+        
+        /* Referral Modal */
+        .referral-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .referral-modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        
+        .referral-modal h2 {
+            font-size: 1.8rem;
+            color: var(--referral);
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .referral-modal p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .referral-badge {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px dashed var(--referral-dark);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .referral-amount {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--referral);
+            margin: 10px 0;
+        }
+        
+        .referral-link-container {
+            display: flex;
+            margin: 20px 0;
+            border: 1px solid var(--light-gray);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        
+        .referral-link {
+            flex: 1;
+            padding: 12px 20px;
+            background: #f9fafb;
+            color: var(--dark);
+            text-align: left;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .copy-btn {
+            background: var(--referral);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .copy-btn:hover {
+            background: var(--referral-dark);
+        }
+        
+        .referral-share {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 25px 0;
+        }
+        
+        .share-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+        
+        .share-btn.whatsapp {
+            background: #25d366;
+        }
+        
+        .share-btn.facebook {
+            background: #3b5998;
+        }
+        
+        .share-btn.twitter {
+            background: #1da1f2;
+        }
+        
+        .share-btn.link {
+            background: var(--primary);
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .referral-terms {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .referral-terms h4 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .referral-terms ul {
+            padding-left: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .referral-terms li {
+            margin-bottom: 8px;
+        }
+        
+        /* Apply Options Modal */
+        .apply-options-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .apply-options-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        
+        .apply-options-content h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .apply-options-content p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+        
+        .apply-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .apply-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-decoration: none;
+        }
+        
+        .apply-btn.google {
+            background: white;
+            color: var(--dark);
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .apply-btn.google:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .apply-btn.whatsapp {
+            background: #25d366;
+            color: white;
+        }
+        
+        .apply-btn.whatsapp:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+        }
+        
+        /* New styles for name input */
+        .referral-name-input {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .referral-name-input input {
+            padding: 12px 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 50px;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        .referral-name-input button {
+            background: var(--referral);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .referral-name-input button:hover {
+            background: var(--referral-dark);
+        }
+        
+        #referralResultSection {
+            display: none;
+        }
+        
+        .name-error {
+            color: #e53e3e;
+            margin-top: 5px;
+            font-size: 14px;
+            text-align: left;
+            padding-left: 20px;
+            display: none;
+        }
+        
+        /* Fixed close button */
+        .close-modal.fixed {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+        }
     </style>
 </head>
 <body>
     <!-- WhatsApp Button -->
-    <a href="https://wa.me/918055698328" class="whatsapp-btn">
+    <a href="https://wa.me/+918055698328" class="whatsapp-btn">
         <i class="fab fa-whatsapp"></i>
     </a>
+    
+    <!-- Referral Floating Button -->
+    <div class="referral-btn" id="referralFloatingBtn">
+        <i class="fas fa-gift"></i>
+    </div>
+    
+    <!-- Fixed Close Button -->
+    <div class="close-modal fixed" id="fixedCloseBtn" style="display: none;">×</div>
 
     <!-- Document Modal -->
     <div class="modal" id="documentModal">
@@ -623,6 +1014,98 @@
             <a href="#" class="btn btn-whatsapp" id="whatsappApplyBtn" style="margin-top: 15px;">
                 <i class="fab fa-whatsapp"></i> Ask for Required Documents
             </a>
+        </div>
+    </div>
+    
+    <!-- Referral Modal -->
+    <div class="referral-modal" id="referralModal">
+        <div class="referral-modal-content">
+            <span class="close-modal" id="closeReferralModal">&times;</span>
+            <h2>Refer & Earn</h2>
+            <p>Share your referral link with friends and earn <span class="highlight">upto ₹50</span> for every service they complete!</p>
+            
+            <!-- Name input section -->
+            <div id="nameInputSection">
+                <p>Enter your name to generate a personalized referral link:</p>
+                <div class="referral-name-input">
+                    <input type="text" id="referralName" placeholder="Your Full Name">
+                    <div class="name-error" id="nameError">Please enter your name to generate referral code</div>
+                    <button id="generateReferralBtn">Generate Referral Link</button>
+                </div>
+            </div>
+            
+            <!-- Referral result section -->
+            <div id="referralResultSection">
+                <div class="referral-badge">
+                    <div>Earn up to</div>
+                    <div class="referral-amount">₹50</div>
+                    <div>per successful referral</div>
+                </div>
+                
+                <div class="referral-link-container">
+                    <div class="referral-link" id="referralLink">https://shorturl.at/nmvgI?ref=</div>
+                    <button class="copy-btn" id="copyReferralBtn">Copy</button>
+                </div>
+                
+                <div class="referral-share">
+                    <a href="#" class="share-btn whatsapp" id="whatsappShareBtn">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="share-btn facebook" id="facebookShareBtn">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="share-btn twitter" id="twitterShareBtn">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="share-btn link" id="linkShareBtn">
+                        <i class="fas fa-link"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="referral-terms">
+                <h4>How it works:</h4>
+                <ul>
+                    <li>Share your unique referral link with friends</li>
+                    <li>When Your friend pays for their first document service</li>
+                    <li>Earn upto ₹50 for service they complete</li>
+                    <li>your reward will be transferred directly to your bank account via UPI within 24 hours</li>
+                </ul>
+            </div>
+            
+            <button class="btn btn-referral" id="referralCloseBtn" style="width: 100%; margin-top: 15px;">
+                Start Referring Now
+            </button>
+        </div>
+    </div>
+    
+    <!-- Apply Options Modal -->
+    <div class="apply-options-modal" id="applyOptionsModal">
+        <div class="apply-options-content">
+            <span class="close-modal" id="closeApplyOptionsModal">&times;</span>
+            <h2 id="applyServiceTitle">Apply for Service</h2>
+            <p>Choose your preferred application method:</p>
+            
+            <div class="apply-buttons">
+                <a href="#" class="apply-btn google" id="googleFormBtn">
+                    <i class="fab fa-google"></i>
+                    Apply Via Google Form
+                </a>
+                <a href="#" class="apply-btn whatsapp" id="whatsappApplyBtn2">
+                    <i class="fab fa-whatsapp"></i>
+                    Apply Via WhatsApp
+                </a>
+            </div>
+            
+            <div class="referral-terms">
+                <h4>Why choose DocSwift?</h4>
+                <ul>
+                    <li>100% secure document handling</li>
+                    <li>Expert assistance throughout the process</li>
+                    <li>Fast processing with status updates</li>
+                    <li>Dedicated support for any queries</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -793,7 +1276,7 @@
                     </div>
                 </div>
                 
-                <!-- Service Card 7 - Shop License -->
+                <!-- Service Card 7 - Scholarship Registration -->
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-store"></i>
@@ -812,7 +1295,7 @@
                     </div>
                 </div>
                 
-                <!-- Service Card 8 - Food License -->
+                <!-- Service Card 8 - Exam Registration -->
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-file-alt"></i>
@@ -840,12 +1323,69 @@
                         <h3>PAN Card</h3>
                         <p>Permanent Account Number required for financial transactions</p>
                         <div class="service-price">
-                            <span class="service-old-price">₹500</span>
+                            <span class="service-old-price">₹300</span>
                             <span>₹149</span>
                         </div>
                         <div class="service-buttons">
                             <button class="btn btn-primary apply-now" data-service="PAN Card">Apply Now</button>
                             <button class="btn btn-outline req-docs" data-service="PAN Card">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Service Card 10 - Ration Card Online -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Ration Card Online</h3>
+                        <p>Apply for a new ration card or modify existing ration card details</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹200</span>
+                            <span>₹79</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Ration Card Online">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Ration Card Online">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Service Card 11 - Travel Services -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Travel Services</h3>
+                        <p>Apply for passports, visas, and other travel-related documents</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹5000</span>
+                            <span>₹3499</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Travel Services">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Travel Services">Documents</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Service Card 12 - Pensions -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Pensions</h3>
+                        <p>Apply for government pension schemes and retirement benefits</p>
+                        <div class="service-price">
+                            <span class="service-old-price">₹1000</span>
+                            <span>₹699</span>
+                        </div>
+                        <div class="service-buttons">
+                            <button class="btn btn-primary apply-now" data-service="Pensions">Apply Now</button>
+                            <button class="btn btn-outline req-docs" data-service="Pensions">Documents</button>
                         </div>
                     </div>
                 </div>
@@ -907,8 +1447,8 @@
             <div class="cta-content">
                 <h2>Ready to Get Your Documents?</h2>
                 <p>Join thousands of satisfied customers who have streamlined their document process</p>
-                <a href="https://wa.me/918055698328" class="btn btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i> Say Hello — We’re Ready to Help!
+                <a href="https://wa.me/+918055698328" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Say Hello — We're Ready to Help!
                 </a>
             </div>
         </div>
@@ -937,6 +1477,7 @@
                         <li><a href="#services"><i class="fas fa-chevron-right"></i> Domicile Certificate</a></li>
                         <li><a href="#services"><i class="fas fa-chevron-right"></i> Driving License</a></li>
                         <li><a href="#services"><i class="fas fa-chevron-right"></i> PAN Card</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Ration Card</a></li>
                     </ul>
                 </div>
                 
@@ -945,7 +1486,7 @@
                     <ul class="footer-contact">
                         <li>
                             <i class="fas fa-map-marker-alt"></i>
-                            <div>NexGenAiTech Jamsadia kushinagar 274409 </div>
+                            <div>Jamsadia Kushinagar 274409 </div>
                         </li>
                         <li>
                             <i class="fas fa-envelope"></i>
@@ -953,14 +1494,14 @@
                         </li>
                         <li>
                             <i class="fab fa-whatsapp"></i>
-                            <div>+91 80XXXXX328 </div>
+                            <div>+91 91XXXXX328 </div>
                         </li>
                     </ul>
                 </div>
             </div>
             
             <div class="copyright">
-                &copy; 2025 NexGenAiTech. All Rights Reserved. | Designed for India with Love
+                &copy; 2025 NexGenAiTech. All Rights Reserved. | DocSwift
             </div>
         </div>
     </footer>
@@ -974,7 +1515,6 @@
                 "Passport size photo",
                 "Self-declaration (if Available)",
                 "Pan Card (if Available)",
-                
             ],
             "Income Certificate": [
                 "Aadhaar Card (Photo)",
@@ -983,8 +1523,6 @@
                 "Self-declaration (if Available)",
                 "Pan Card (if Available)",
                 "Salary Slips if Available (Last 3 months)",
-                
-               
             ],
             "Domicile Certificate": [
                 "Aadhaar Card (Photo)",
@@ -992,7 +1530,6 @@
                 "Passport size photo",
                 "Self-declaration (if Available)",
                 "Pan Card (if Available)",
-                
             ],
             "Birth Certificate": [
                 "Hospital Birth Record",
@@ -1025,16 +1562,13 @@
                 "Domicile certificate",
                 "Bank passbook",
                 "Passport Size Photos"
-            
             ],
-
             "Exam Registration": [
                 "Aadhaar Card (Copy)",
                 "PAN Card (Copy)",
                 "Caste Certificate",
                 "Class X & XII Marksheets",
                 "Passport Size Photos "
-               
             ],
             "PAN Card": [
                 "Aadhaar Card (Copy)",
@@ -1043,7 +1577,49 @@
                 "Passport Size Photo",
                 "Date of Birth Proof",
                 "Application Form (Signed)"
+            ],
+            // New services documents
+            "Ration Card Online": [
+                "Aadhaar Card (Copy)",
+                "Proof of Residence",
+                "Family Member Details",
+                "Passport Size Photos",
+                "Income Certificate",
+                "Existing Ration Card (if any)"
+            ],
+            "Travel Services": [
+                "Passport Application Form",
+                "Birth Certificate",
+                "Address Proof",
+                "ID Proof",
+                "Passport Size Photos",
+                "Travel Itinerary"
+            ],
+            "Pensions": [
+                "Aadhaar Card (Copy)",
+                "Bank Passbook",
+                "Proof of Age",
+                "Service Certificate",
+                "Pension Application Form",
+                "Nominee Details"
             ]
+        };
+
+        // Google Form URLs for each service
+        const googleFormUrls = {
+            "Caste Certificate": "https://forms.gle/example1",
+            "Income Certificate": "https://forms.gle/example2",
+            "Domicile Certificate": "https://forms.gle/example3",
+            "Birth Certificate": "https://forms.gle/example4",
+            "Death Certificate": "https://forms.gle/example5",
+            "Driving License": "https://forms.gle/example6",
+            "Scholarship Registration": "https://forms.gle/example7",
+            "Exam Registration": "https://forms.gle/example8",
+            "PAN Card": "https://forms.gle/example9",
+            // New services Google Forms
+            "Ration Card Online": "https://forms.gle/example10",
+            "Travel Services": "https://forms.gle/example11",
+            "Pensions": "https://forms.gle/example12"
         };
 
         // WhatsApp number
@@ -1055,16 +1631,72 @@
         const modalTitle = document.getElementById('modalServiceTitle');
         const documentsList = document.getElementById('documentsList');
         const whatsappApplyBtn = document.getElementById('whatsappApplyBtn');
+        
+        // Apply Options Modal elements
+        const applyOptionsModal = document.getElementById('applyOptionsModal');
+        const closeApplyOptionsModal = document.getElementById('closeApplyOptionsModal');
+        const applyServiceTitle = document.getElementById('applyServiceTitle');
+        const googleFormBtn = document.getElementById('googleFormBtn');
+        const whatsappApplyBtn2 = document.getElementById('whatsappApplyBtn2');
+        
+        // Referral elements
+        const referralModal = document.getElementById('referralModal');
+        const closeReferralModal = document.getElementById('closeReferralModal');
+        const referralFloatingBtn = document.getElementById('referralFloatingBtn');
+        const referralLink = document.getElementById('referralLink');
+        const copyReferralBtn = document.getElementById('copyReferralBtn');
+        const referralCloseBtn = document.getElementById('referralCloseBtn');
+        const whatsappShareBtn = document.getElementById('whatsappShareBtn');
+        const facebookShareBtn = document.getElementById('facebookShareBtn');
+        const twitterShareBtn = document.getElementById('twitterShareBtn');
+        const linkShareBtn = document.getElementById('linkShareBtn');
+        const fixedCloseBtn = document.getElementById('fixedCloseBtn');
+        
+        // Name input elements
+        const referralNameInput = document.getElementById('referralName');
+        const generateReferralBtn = document.getElementById('generateReferralBtn');
+        const nameInputSection = document.getElementById('nameInputSection');
+        const referralResultSection = document.getElementById('referralResultSection');
+        const nameError = document.getElementById('nameError');
 
-        // Apply Now buttons
+        // Generate referral code based on name
+        function generateReferralLink(name) {
+            // Clean the name and get first 3 letters
+            const cleanedName = name.replace(/\s+/g, '').toUpperCase();
+            const namePart = cleanedName.substring(0, 3);
+            
+            // Generate random 4-digit number
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            
+            return `https://shorturl.at/nmvgI?ref=${namePart}${randomNum}`;
+        }
+
+        // Apply Now buttons - show options modal
         document.querySelectorAll('.apply-now').forEach(button => {
             button.addEventListener('click', function() {
                 const serviceName = this.getAttribute('data-service');
-                const whatsappMessage = `Hello, I would like to apply for ${serviceName}. Please send me list of  the required documents and application process.`;
-                const encodedMessage = encodeURIComponent(whatsappMessage);
-                window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+                showApplyOptionsModal(serviceName);
             });
         });
+
+        function showApplyOptionsModal(serviceName) {
+            applyServiceTitle.textContent = `Apply for ${serviceName}`;
+            
+            // Set Google Form URL
+            if (googleFormUrls[serviceName]) {
+                googleFormBtn.href = googleFormUrls[serviceName];
+            } else {
+                googleFormBtn.href = "https://forms.gle/default";
+            }
+            
+            // Set WhatsApp link
+            const whatsappMessage = `Hello, I would like to apply for ${serviceName}. Please tell me process.`;
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            whatsappApplyBtn2.href = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            applyOptionsModal.style.display = 'flex';
+            fixedCloseBtn.style.display = 'flex';
+        }
 
         // Required Documents buttons
         document.querySelectorAll('.req-docs').forEach(button => {
@@ -1093,13 +1725,138 @@
             }
         }
 
+        // Close modals
         closeModal.addEventListener('click', function() {
             modal.style.display = 'none';
         });
-
+        
+        closeApplyOptionsModal.addEventListener('click', function() {
+            applyOptionsModal.style.display = 'none';
+            fixedCloseBtn.style.display = 'none';
+        });
+        
+        // Referral modal functionality
+        referralFloatingBtn.addEventListener('click', function() {
+            referralModal.style.display = 'flex';
+            fixedCloseBtn.style.display = 'flex';
+        });
+        
+        closeReferralModal.addEventListener('click', function() {
+            referralModal.style.display = 'none';
+            fixedCloseBtn.style.display = 'none';
+        });
+        
+        fixedCloseBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            referralModal.style.display = 'none';
+            applyOptionsModal.style.display = 'none';
+            fixedCloseBtn.style.display = 'none';
+        });
+        
+        referralCloseBtn.addEventListener('click', function() {
+            referralModal.style.display = 'none';
+            fixedCloseBtn.style.display = 'none';
+        });
+        
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
                 modal.style.display = 'none';
+            }
+            if (event.target === referralModal) {
+                referralModal.style.display = 'none';
+                fixedCloseBtn.style.display = 'none';
+            }
+            if (event.target === applyOptionsModal) {
+                applyOptionsModal.style.display = 'none';
+                fixedCloseBtn.style.display = 'none';
+            }
+        });
+        
+        // Copy referral link
+        copyReferralBtn.addEventListener('click', function() {
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = referralLink.textContent;
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            // Show copied feedback
+            const originalText = copyReferralBtn.textContent;
+            copyReferralBtn.textContent = 'Copied!';
+            setTimeout(() => {
+                copyReferralBtn.textContent = originalText;
+            }, 2000);
+        });
+        
+        // Social sharing
+        whatsappShareBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const message = `Get your government documents hassle-free with DocSwift! Take a view:${referralLink.textContent}`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+        });
+        
+        facebookShareBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink.textContent)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        });
+        
+        twitterShareBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const text = `Get government documents hassle-free with @DocSwift! Take a View:`;
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(referralLink.textContent)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        });
+        
+        linkShareBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (navigator.share) {
+                navigator.share({
+                    title: 'DocSwift Referral',
+                    text: 'Get your government documents hassle-free with DocSwift!',
+                    url: referralLink.textContent
+                })
+                .catch(console.error);
+            } else {
+                copyReferralBtn.click();
+            }
+        });
+        
+        // Generate referral code from name
+        generateReferralBtn.addEventListener('click', function() {
+            const name = referralNameInput.value.trim();
+            
+            if (!name) {
+                nameError.style.display = 'block';
+                return;
+            }
+            
+            nameError.style.display = 'none';
+            
+            // Generate referral link
+            const link = generateReferralLink(name);
+            referralLink.textContent = link;
+            
+            // Show result section
+            referralResultSection.style.display = 'block';
+        });
+        
+        // Show referral modal when services section ends
+        const servicesSection = document.getElementById('services');
+        
+        window.addEventListener('scroll', function() {
+            const servicesEnd = servicesSection.offsetTop + servicesSection.offsetHeight;
+            
+            // Show when scrolled to the end of services section
+            if (window.scrollY > servicesEnd - window.innerHeight) {
+                // Show only once per session
+                if (!sessionStorage.getItem('referralShown')) {
+                    referralModal.style.display = 'flex';
+                    fixedCloseBtn.style.display = 'flex';
+                    sessionStorage.setItem('referralShown', 'true');
+                }
             }
         });
     </script>
