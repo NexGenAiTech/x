@@ -1883,7 +1883,7 @@
             const scrollPercentage = (scrollPosition / totalHeight) * 100;
 
             // Show when scrolled to 80% of page
-            if (scrollPercentage >= 80 && !sessionStorage.getItem('referralShown')) {
+            if (scrollPercentage >= 95 && !sessionStorage.getItem('referralShown')) {
                 referralModal.style.display = 'flex';
                 fixedCloseBtn.style.display = 'flex';
                 sessionStorage.setItem('referralShown', 'true');
