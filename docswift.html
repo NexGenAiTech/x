@@ -29,6 +29,7 @@
             --google-yellow: #FBBC05;
             --google-red: #EA4335;
             --nexgen-purple: #7e22ce;
+            --hindi-orange: #ff9933;
         }
 
         * {
@@ -50,6 +51,42 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+        }
+
+        /* Hindi Language Button */
+        .hindi-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: white;
+            border-radius: 50px;
+            font-weight: 500;
+            color: var(--dark);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .hindi-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .hindi-icon {
+            color: var(--hindi-orange);
+            font-size: 20px;
+        }
+        
+        .hindi-text {
+            font-weight: 600;
         }
 
         .logo {
@@ -58,27 +95,27 @@
             gap: 10px;
             text-decoration: none;
             padding: 15px 0;
-            justify-content: center;
+            
         }
 
         .logo-icon {
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            width: 100px;
+            width: 150px;
             height: 40px;
-            background: var(--primary);
-            border-radius: 5px;
+            background: whitesmoke;
+            border-radius: 10px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
+            align-items:center;
+            justify-content:center;
+            color: rgb(48, 9, 221);
+            font-size: 30px;
             font-weight: bold;
         }
 
         .logo-text {
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: 100;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
@@ -88,8 +125,8 @@
         .btn {
             display: inline-block;
             padding: 12px 28px;
-            border-radius: 50px;
-            font-weight: 500;
+            border-radius: 70px;
+            font-weight: 800px;
             text-decoration: none;
             transition: var(--transition);
             cursor: pointer;
@@ -100,7 +137,7 @@
         .btn-primary {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 15px rgba(37, 235, 186, 0.3);
         }
 
         .btn-primary:hover {
@@ -1132,11 +1169,17 @@
         </div>
     </div>
 
-    <!-- Logo -->
+    <!-- Logo and Hindi Button -->
     <div class="container">
+        <!-- Hindi Language Button -->
+        <a href="https://nexgenaitech.com" class="hindi-btn" id="hindiButton">
+            <i class="fas fa-language hindi-icon"></i>
+            <span class="hindi-text">हिंदी</span>
+        </a>
+        
         <div class="logo">
             <div class="logo-icon">DocSwift</div>
-            <div class="logo-text">By NexGenAiTech</div>
+            <div class="logo-text"></div>
         </div>
     </div>
 
