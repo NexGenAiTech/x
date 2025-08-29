@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryptor</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --accent: #58a6ff;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --success: #3fb950;
+            --error: #f85149;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            background-color: var(--bg-secondary);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            font-weight: 600;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 16px;
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        button.secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid #30363d;
+        }
+        
+        .output-group {
+            position: relative;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .status {
+            height: 20px;
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .success {
+            color: var(--success);
+        }
+        
+        .error {
+            color: var(--error);
+        }
+        
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Text Encryptor</h1>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" id="encryptTab">Encrypt</button>
+            <button class="tab" id="decryptTab">Decrypt</button>
+        </div>
+        
+        <div class="input-group">
+            <textarea id="input" placeholder="Enter text to encrypt" autofocus></textarea>
+        </div>
+        
+        <div class="actions">
+            <button id="processBtn">Execute</button>
+            <button class="secondary" id="clearBtn">Clear</button>
+        </div>
+        
+        <div class="output-group">
+            <textarea id="output" placeholder="Result will appear here" readonly></textarea>
+            <button class="copy-btn secondary" id="copyBtn">Copy</button>
+        </div>
+        
+        <div class="status" id="status"></div>
+    </div>
+    
+    <footer>
+        <p>Text Encryptor v1.0</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const encryptTab = document.getElementById('encryptTab');
+            const decryptTab = document.getElementById('decryptTab');
+            const input = document.getElementById('input');
+            const output = document.getElementById('output');
+            const processBtn = document.getElementById('processBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const status = document.getElementById('status');
+            
+            let mode = 'encrypt';
+            
+            // Switch between encryption and decryption modes
+            encryptTab.addEventListener('click', () => {
+                encryptTab.classList.add('active');
+                decryptTab.classList.remove('active');
+                mode = 'encrypt';
+                input.placeholder = 'Enter text to encrypt';
+                processBtn.textContent = 'Execute';
+                clearUI();
+            });
+            
+            decryptTab.addEventListener('click', () => {
+                decryptTab.classList.add('active');
+                encryptTab.classList.remove('active');
+                mode = 'decrypt';
+                input.placeholder = 'Enter code to decrypt';
+                processBtn.textContent = 'Execute';
+                clearUI();
+            });
+            
+            // Process the input
+            processBtn.addEventListener('click', () => {
+                const text = input.value.trim();
+                
+                if (!text) {
+                    showStatus('Error: No input provided', 'error');
+                    return;
+                }
+                
+                try {
+                    if (mode === 'encrypt') {
+                        output.value = encrypt(text);
+                        showStatus('Text encrypted successfully', 'success');
+                    } else {
+                        output.value = decrypt(text);
+                        showStatus('Code decrypted successfully', 'success');
+                    }
+                } catch (e) {
+                    showStatus('Error: Invalid input or operation failed', 'error');
+                    output.value = '';
+                }
+            });
+            
+            // Clear input and output
+            clearBtn.addEventListener('click', clearUI);
+            
+            // Copy output to clipboard
+            copyBtn.addEventListener('click', () => {
+                if (!output.value) return;
+                
+                output.select();
+                document.execCommand('copy');
+                showStatus('Copied to clipboard', 'success');
+                
+                setTimeout(() => {
+                    window.getSelection().removeAllRanges();
+                    showStatus('');
+                }, 1500);
+            });
+            
+            // Encryption function (minimal output length)
+            function encrypt(text) {
+                // Convert to Base64
+                let base64 = btoa(unescape(encodeURIComponent(text)));
+                
+                // Simple substitution to reduce length
+                let substituted = '';
+                for (let i = 0; i < base64.length; i++) {
+                    let code = base64.charCodeAt(i);
+                    // Convert to a more compact representation
+                    substituted += String.fromCharCode(code + 1);
+                }
+                
+                // Remove padding and replace characters to shorten
+                return substituted.replace(/=/g, '').replace(/\//g, '_').replace(/\+/g, '-');
+            }
+            
+            // Decryption function
+            function decrypt(encoded) {
+                try {
+                    // Reverse the substitutions
+                    let withPadding = encoded;
+                    let base64 = '';
+                    
+                    for (let i = 0; i < withPadding.length; i++) {
+                        let code = withPadding.charCodeAt(i);
+                        base64 += String.fromCharCode(code - 1);
+                    }
+                    
+                    // Add padding if needed
+                    const padLength = (4 - (base64.length % 4)) % 4;
+                    for (let i = 0; i < padLength; i++) {
+                        base64 += '=';
+                    }
+                    
+                    // Convert from Base64
+                    return decodeURIComponent(escape(atob(base64)));
+                } catch (e) {
+                    throw new Error('Invalid encrypted code');
+                }
+            }
+            
+            // UI functions
+            function clearUI() {
+                input.value = '';
+                output.value = '';
+                showStatus('');
+                input.focus();
+            }
+            
+            function showStatus(message, type) {
+                status.textContent = message;
+                status.className = 'status';
+                if (type) status.classList.add(type);
+            }
+        });
+    </script>
+</body>
+</html>
