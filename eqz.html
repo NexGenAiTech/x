@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NexGenAiTech - Maintenance</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,144 +13,62 @@
             box-sizing: border-box;
         }
         
-        :root {
-            --primary: #1890ff;
-            --secondary: #52c41a;
-            --dark-bg: #0a1929;
-            --dark-card: #132f4c;
-            --text-light: #f0f6fc;
-            --text-dim: #8b949e;
-        }
-        
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a1929 0%, #132f4c 100%);
-            color: var(--text-light);
+            background: linear-gradient(135deg, #e6f7ff 0%, #f0faff 50%, #ffffff 100%);
+            color: #2d3748;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-        
-        /* Matrix code rain effect */
-        .matrix-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.15;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .matrix-column {
-            position: absolute;
-            top: -50px;
-            width: 14px;
-            font-family: 'Fira Code', monospace;
-            font-size: 18px;
-            color: var(--primary);
-            animation: matrix-rain 20s linear infinite;
-            text-shadow: 0 0 5px var(--primary);
-        }
-        
-        @keyframes matrix-rain {
-            0% {
-                transform: translateY(-100%);
-            }
-            100% {
-                transform: translateY(100vh);
-            }
+            padding: 20px;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 700px;
             width: 100%;
             text-align: center;
-            padding: 50px 30px;
-            background: rgba(19, 47, 76, 0.7);
+            padding: 50px 40px;
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
-            border-radius: 16px;
-            box-shadow: 0 0 40px rgba(24, 144, 255, 0.15),
-                        0 0 20px rgba(82, 196, 26, 0.1),
-                        inset 0 0 20px rgba(24, 144, 255, 0.1);
-            border: 1px solid rgba(24, 144, 255, 0.2);
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 105, 148, 0.12), 0 2px 10px rgba(0, 0, 0, 0.05);
             position: relative;
-            z-index: 1;
+            overflow: hidden;
         }
         
-        .tech-border {
+        .container::before {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            pointer-events: none;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0.2), rgba(255,255,255,0));
+            transform: rotate(30deg);
             z-index: -1;
         }
         
-        .tech-corner {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-        }
-        
-        .corner-tl {
-            top: 0;
-            left: 0;
-            border-right: none;
-            border-bottom: none;
-        }
-        
-        .corner-tr {
-            top: 0;
-            right: 0;
-            border-left: none;
-            border-bottom: none;
-        }
-        
-        .corner-bl {
-            bottom: 0;
-            left: 0;
-            border-right: none;
-            border-top: none;
-        }
-        
-        .corner-br {
-            bottom: 0;
-            right: 0;
-            border-left: none;
-            border-top: none;
-        }
-        
         .logo {
-            margin-bottom: 40px;
+            margin-bottom: 45px;
         }
         
         .logo-text {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, #1890ff 0%, #52c41a 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 1.5px;
-            text-shadow: 0 0 15px rgba(24, 144, 255, 0.4);
-            font-family: 'Fira Code', monospace;
+            letter-spacing: 1.2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .logo-subtext {
             font-size: 14px;
-            color: var(--text-dim);
+            color: #718096;
             letter-spacing: 4px;
-            margin-top: 8px;
-            font-family: 'Fira Code', monospace;
+            margin-top: 5px;
         }
         
         .spinner-container {
@@ -164,11 +82,10 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: conic-gradient(rgba(24, 144, 255, 0.1), var(--primary), rgba(82, 196, 26, 0.1));
+            background: conic-gradient(rgba(24, 144, 255, 0.1), #1890ff, rgba(82, 196, 26, 0.1));
             -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #fff 0);
             mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #fff 0);
             animation: spin 2s linear infinite;
-            box-shadow: 0 0 25px rgba(24, 144, 255, 0.3);
         }
         
         .spinner-inner {
@@ -177,78 +94,40 @@
             left: 15px;
             width: calc(100% - 30px);
             height: calc(100% - 30px);
-            background: var(--dark-card);
+            background: white;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2),
-                        inset 0 0 15px rgba(24, 144, 255, 0.1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.07);
         }
         
         .brand-text {
             font-size: 16px;
             font-weight: 600;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, #1890ff 0%, #52c41a 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 1.5px;
-            font-family: 'Fira Code', monospace;
         }
         
         h1 {
             font-weight: 500;
             font-size: 32px;
             margin-bottom: 20px;
-            color: var(--text-light);
+            color: #1a365d;
             letter-spacing: -0.5px;
-            text-shadow: 0 0 10px rgba(24, 144, 255, 0.3);
         }
         
         p {
             font-size: 18px;
             line-height: 1.6;
-            color: var(--text-dim);
+            color: #4a5568;
             margin-bottom: 45px;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
-        }
-        
-        .code-snippet {
-            background: rgba(10, 25, 41, 0.7);
-            border: 1px solid rgba(24, 144, 255, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 0 auto 40px;
-            max-width: 500px;
-            text-align: left;
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-        
-        .code-line {
-            margin-bottom: 8px;
-            color: var(--text-dim);
-        }
-        
-        .code-comment {
-            color: #6a9955;
-        }
-        
-        .code-function {
-            color: #dcdcaa;
-        }
-        
-        .code-var {
-            color: #9cdcfe;
-        }
-        
-        .code-string {
-            color: #ce9178;
         }
         
         .buttons {
@@ -260,54 +139,33 @@
         
         .btn {
             padding: 16px 35px;
-            border-radius: 8px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 500;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-family: 'Fira Code', monospace;
-            position: relative;
-            overflow: hidden;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, #0d6efd 100%);
+            background: linear-gradient(135deg, #1890ff 0%, #0d6efd 100%);
             color: white;
-            box-shadow: 0 0 15px rgba(24, 144, 255, 0.3);
         }
         
         .btn-secondary {
-            background: rgba(19, 47, 76, 0.7);
-            color: var(--text-light);
-            border: 1px solid rgba(24, 144, 255, 0.3);
-            box-shadow: 0 0 15px rgba(24, 144, 255, 0.2);
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
-            transform: rotate(30deg);
-            transition: all 0.3s;
-            opacity: 0;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #2d3748;
+            border: 1px solid #e2e8f0;
         }
         
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(24, 144, 255, 0.4);
-        }
-        
-        .btn:hover::before {
-            opacity: 1;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         
         .btn-primary:hover {
@@ -315,10 +173,10 @@
         }
         
         .btn-secondary:hover {
-            background: rgba(24, 144, 255, 0.2);
+            background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);
         }
         
-        .tech-elements {
+        .ai-elements {
             display: flex;
             justify-content: center;
             gap: 30px;
@@ -326,19 +184,18 @@
             opacity: 0.7;
         }
         
-        .tech-element {
+        .ai-element {
             font-size: 24px;
-            color: var(--primary);
-            animation: pulse 2s ease-in-out infinite;
-            text-shadow: 0 0 10px rgba(24, 144, 255, 0.5);
+            color: #1890ff;
+            animation: float 3s ease-in-out infinite;
         }
         
-        .tech-element:nth-child(2) {
+        .ai-element:nth-child(2) {
             animation-delay: 0.5s;
-            color: var(--secondary);
+            color: #52c41a;
         }
         
-        .tech-element:nth-child(3) {
+        .ai-element:nth-child(3) {
             animation-delay: 1s;
             color: #fa8c16;
         }
@@ -352,21 +209,19 @@
             }
         }
         
-        @keyframes pulse {
+        @keyframes float {
             0%, 100% {
-                transform: scale(1);
-                opacity: 0.7;
+                transform: translateY(0);
             }
             50% {
-                transform: scale(1.2);
-                opacity: 1;
+                transform: translateY(-10px);
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .container {
-                padding: 40px 20px;
-                margin: 0 15px;
+                padding: 35px 25px;
+                border-radius: 20px;
             }
             
             .logo-text {
@@ -397,16 +252,7 @@
     </style>
 </head>
 <body>
-    <div class="matrix-bg" id="matrixBg"></div>
-    
     <div class="container">
-        <div class="tech-border">
-            <div class="tech-corner corner-tl"></div>
-            <div class="tech-corner corner-tr"></div>
-            <div class="tech-corner corner-bl"></div>
-            <div class="tech-corner corner-br"></div>
-        </div>
-        
         <div class="logo">
             <div class="logo-text">NexGenAiTech</div>
             <div class="logo-subtext">AI DRIVEN SOLUTIONS</div>
@@ -419,22 +265,13 @@
             </div>
         </div>
         
-        <h1>System Upgrade in Progress</h1>
+        <h1>We're Upgrading Your Experience</h1>
         
         <p>We are currently updating our platform to serve you better. Please check back soon!</p>
         
-        <div class="code-snippet">
-            <div class="code-line"><span class="code-comment">// Maintenance mode active</span></div>
-            <div class="code-line"><span class="code-function">function</span> <span class="code-var">upgradeSystem</span>() {</div>
-            <div class="code-line">&nbsp;&nbsp;<span class="code-function">return</span> <span class="code-string">"Enhancing AI capabilities..."</span>;</div>
-            <div class="code-line">}</div>
-            <div class="code-line"></div>
-            <div class="code-line"><span class="code-var">console</span>.<span class="code-function">log</span>(<span class="code-var">upgradeSystem</span>()); <span class="code-comment">// Output: Enhancing AI capabilities...</span></div>
-        </div>
-        
         <div class="buttons">
             <a href="https://nexgenaitech.github.io/x/ngait" class="btn btn-primary">
-                <i class="fas fa-laptop-code"></i>
+                <i class="fas fa-rocket"></i>
                 Visit NexGenAiTech
             </a>
             <a href="https://nexgenaitech.github.io/x/docswift" class="btn btn-secondary">
@@ -443,64 +280,31 @@
             </a>
         </div>
         
-        <div class="tech-elements">
-            <div class="tech-element"><i class="fas fa-microchip"></i></div>
-            <div class="tech-element"><i class="fas fa-server"></i></div>
-            <div class="tech-element"><i class="fas fa-code"></i></div>
+        <div class="ai-elements">
+            <div class="ai-element"><i class="fas fa-brain"></i></div>
+            <div class="ai-element"><i class="fas fa-robot"></i></div>
+            <div class="ai-element"><i class="fas fa-microchip"></i></div>
         </div>
     </div>
 
     <script>
-        // Create matrix code rain effect
-        function createMatrixEffect() {
-            const matrixBg = document.getElementById('matrixBg');
-            const characters = '01010101NEXGENAITECH101010100101';
-            const columns = Math.floor(window.innerWidth / 20);
-            
-            for (let i = 0; i < columns; i++) {
-                const column = document.createElement('div');
-                column.className = 'matrix-column';
-                column.style.left = (i * 20) + 'px';
-                column.style.animationDelay = (Math.random() * 5) + 's';
-                column.style.animationDuration = (10 + Math.random() * 15) + 's';
-                
-                // Add random characters
-                let content = '';
-                const height = Math.floor(Math.random() * 10) + 10;
-                for (let j = 0; j < height; j++) {
-                    content += characters.charAt(Math.floor(Math.random() * characters.length)) + '<br>';
-                }
-                
-                column.innerHTML = content;
-                matrixBg.appendChild(column);
-            }
-        }
-        
-        // Add typewriter effect to code snippet
+        // Add a subtle typewriter effect to the heading
         document.addEventListener('DOMContentLoaded', function() {
-            createMatrixEffect();
-            
-            const codeLines = document.querySelectorAll('.code-line');
-            codeLines.forEach((line, index) => {
-                line.style.opacity = '0';
-                setTimeout(() => {
-                    line.style.transition = 'opacity 0.5s ease';
-                    line.style.opacity = '1';
-                }, 500 + (index * 200));
-            });
-            
-            // Add glitch effect to heading
             const heading = document.querySelector('h1');
-            setInterval(() => {
-                if (Math.random() > 0.9) {
-                    heading.style.textShadow = '0 0 10px rgba(255, 0, 0, 0.5)';
-                    setTimeout(() => {
-                        heading.style.textShadow = '0 0 10px rgba(24, 144, 255, 0.3)';
-                    }, 100);
+            const originalText = heading.textContent;
+            heading.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < originalText.length) {
+                    heading.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
                 }
-            }, 3000);
+            }
+            
+            setTimeout(typeWriter, 500);
         });
     </script>
 </body>
 </html>
-
