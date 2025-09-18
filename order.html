@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spice Garden - Authentic South Indian Cuisine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* South Indian Theme Colors */
+        :root {
+            --primary: #d35400;   /* Spice Orange */
+            --secondary: #2ecc71; /* Fresh Green */
+            --accent: #e67e22;    /* Mango Orange */
+            --accent2: #c0392b;   /* Chili Red */
+            --light: #f8f9fa;
+            --dark: #1a237e;      /* Deep Blue */
+            --text: #2c3e50;
+            --glass: rgba(255, 255, 255, 0.9);
+            --transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --inner-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e0f7fa);
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 8%;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .header.hide {
+            transform: translateY(-100%);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 40px;
+            transition: var(--transition);
+        }
+
+        .logo:hover img {
+            transform: scale(1.1);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .powered-by {
+            font-size: 0.7rem;
+            color: var(--text);
+            margin-top: 2px;
+            white-space: nowrap;
+            opacity: 0.8;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Header Icons */
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-icon, .drinks-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent2);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Mobile menu button */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') center/cover no-repeat;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 8%;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-weight: 700;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            letter-spacing: 1px;
+            border: none;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(230, 126, 34, 0.4);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 8%;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--text);
+            max-width: 800px;
+            margin: 30px auto 0;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Menu Categories */
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid var(--primary);
+            border-radius: 50px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(211, 84, 0, 0.2);
+        }
+
+        /* Menu Items Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item-image {
+            height: 200px;
+            overflow: hidden;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #f8f9fa, #e0f7fa);
+        }
+
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover .menu-item-image img {
+            transform: scale(1.1);
+        }
+
+        .menu-item-content {
+            padding: 20px;
+        }
+
+        .menu-item-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .menu-item-description {
+            color: var(--text);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        .menu-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-to-cart-btn, .share-item-btn {
+            padding: 8px 20px;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .add-to-cart-btn {
+            background: var(--primary);
+        }
+
+        .share-item-btn {
+            background: var(--dark);
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .share-item-btn:hover {
+            background: #3949ab;
+            transform: scale(1.05);
+        }
+
+        /* Share button in top right corner */
+        .item-share-top {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: var(--dark);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .item-share-top:hover {
+            background: #3949ab;
+            transform: scale(1.1);
+        }
+
+        /* Cart Sidebar - Updated layout */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 350px;
+            height: 100vh;
+            background: white;
+            box-shadow: var(--shadow);
+            z-index: 1001;
+            transition: var(--transition);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.active {
+            left: 0;
+        }
+
+        .cart-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .cart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .close-sidebar {
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-sidebar:hover {
+            transform: rotate(90deg);
+        }
+
+        .cart-body {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 60px); /* Subtract header height */
+        }
+
+        .order-details-container {
+            flex: 3; /* Takes more space for order items */
+            overflow-y: auto;
+            border-bottom: 2px solid #eee;
+        }
+
+        .customer-details-container {
+            flex: 2; /* Takes less space for customer details */
+            padding: 15px 20px;
+            overflow-y: auto; /* Changed from visible to auto to make it scrollable */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-items {
+            padding: 15px 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .cart-item-price {
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--light);
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cart-item-quantity {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-item {
+            color: var(--accent2);
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+
+        .cart-summary {
+            padding: 15px 20px;
+            background: #f9f9f9;
+            border-top: 2px solid #eee;
+            position: sticky;
+            bottom: 0;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        .form-fields {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .order-form .form-group {
+            margin-bottom: 10px; /* Reduced margin */
+        }
+
+        .order-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.9rem; /* Smaller font */
+        }
+
+        .order-form input,
+        .order-form textarea,
+        .order-form select {
+            width: 100%;
+            padding: 8px 10px; /* Reduced padding */
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px; /* Slightly smaller radius */
+            font-size: 0.9rem; /* Smaller font */
+            transition: var(--transition);
+            color: var(--text);
+        }
+
+        .order-form input:focus,
+        .order-form textarea:focus,
+        .order-form select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.1);
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 12px; /* Slightly reduced padding */
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .place-order-btn:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(211, 84, 0, 0.2);
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            padding: 20px;
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        /* Welcome Modal */
+        .welcome-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .welcome-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 25px 20px;
+            position: relative;
+            box-shadow: var(--shadow);
+            animation: modalIn 0.5s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-welcome {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-welcome:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .welcome-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .welcome-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .welcome-message {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .welcome-features {
+            text-align: left;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .welcome-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .welcome-feature i {
+            color: var(--secondary);
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Cart Float */
+        .cart-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .cart-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(211, 84, 0, 0.4);
+        }
+
+        .cart-float-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent2);
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Share Float */
+        .share-float {
+            position: fixed;
+            bottom: 105px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--dark);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            transition: var(--transition);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .share-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(26, 35, 126, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 8% 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .powered-by-footer {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .welcome-features {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sidebar {
+                width: 320px;
+                left: -320px;
+            }
+            
+            .cart-header {
+                padding: 12px 15px;
+            }
+            
+            .cart-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 5%;
+            }
+            
+            .nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--glass);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: var(--shadow);
+            }
+            
+            .nav.active {
+                display: flex;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 60px 5%;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .item-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .add-to-cart-btn, .share-item-btn {
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+
+            .welcome-content {
+                padding: 15px;
+                max-height: 80vh;
+            }
+            
+            .welcome-features {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sidebar {
+                width: 300px;
+                left: -300px;
+            }
+
+            .cart-float, .whatsapp-float, .share-float {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .cart-float {
+                bottom: 25px;
+                left: 25px;
+            }
+
+            .whatsapp-float {
+                bottom: 25px;
+                right: 25px;
+            }
+
+            .share-float {
+                bottom: 90px;
+                right: 25px;
+            }
+            
+            .cart-header {
+                padding: 10px 15px;
+            }
+            
+            .cart-title {
+                font-size: 1.1rem;
+            }
+
+            /* Adjust customer details for mobile */
+            .customer-details-container {
+                padding: 10px 15px;
+            }
+            
+            .order-form .form-group {
+                margin-bottom: 8px;
+            }
+            
+            .order-form input,
+            .order-form textarea,
+            .order-form select {
+                padding: 7px 10px;
+                font-size: 0.85rem;
+            }
+            
+            .place-order-btn {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .powered-by {
+                font-size: 0.6rem;
+            }
+            
+            .cart-sidebar {
+                width: 280px;
+                left: -280px;
+            }
+
+            .cart-float-count {
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+            }
+            
+            .cart-header {
+                padding: 8px 12px;
+            }
+            
+            .cart-title {
+                font-size: 1rem;
+            }
+            
+            .close-sidebar {
+                font-size: 1.3rem;
+            }
+
+            /* Further adjustments for very small screens */
+            .customer-details-container {
+                padding: 8px 12px;
+            }
+            
+            .order-form label {
+                font-size: 0.85rem;
+            }
+            
+            .order-form input,
+            .order-form textarea,
+            .order-form select {
+                padding: 6px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .place-order-btn {
+                padding: 8px;
+                font-size: 0.85rem;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            /* Adjust for shorter screens */
+            .customer-details-container {
+                padding: 10px 15px;
+            }
+            
+            .order-form .form-group {
+                margin-bottom: 6px;
+            }
+            
+            .order-form label {
+                font-size: 0.85rem;
+                margin-bottom: 3px;
+            }
+            
+            .order-form input,
+            .order-form textarea,
+            .order-form select {
+                padding: 6px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .place-order-btn {
+                padding: 8px;
+                font-size: 0.85rem;
+                margin-top: 8px;
+            }
+        }
+
+        @media (max-height: 500px) {
+            /* Extra adjustments for very short screens */
+            .customer-details-container {
+                padding: 5px 10px;
+            }
+            
+            .order-form .form-group {
+                margin-bottom: 4px;
+            }
+            
+            .order-form label {
+                font-size: 0.8rem;
+                margin-bottom: 2px;
+            }
+            
+            .order-form input,
+            .order-form textarea,
+            .order-form select {
+                padding: 5px 6px;
+                font-size: 0.75rem;
+            }
+            
+            .place-order-btn {
+                padding: 6px;
+                font-size: 0.8rem;
+                margin-top: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="logo" id="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/3448/3448636.png" alt="Spice Garden Logo">
+            <div class="logo-text">
+                <h1>Spice Garden</h1>
+                <p class="powered-by">Powered by NexGenAiTech</p>
+            </div>
+        </div>
+        <nav class="nav" id="nav">
+            <a href="#home">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-icons">
+            <div class="drinks-icon" id="drinksIcon">
+                <i class="fas fa-glass-martini-alt"></i>
+            </div>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar - Updated with adjusted layout -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2 class="cart-title">Your Order</h2>
+            <span class="close-sidebar" id="closeSidebar">&times;</span>
+        </div>
+        <div class="cart-body">
+            <!-- Order Details Section -->
+            <div class="order-details-container">
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-cart-message" id="emptyCartMessage">
+                        <i class="fas fa-shopping-cart" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">₹0.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Customer Details Section - Now with scrolling enabled -->
+            <div class="customer-details-container">
+                <form class="order-form" id="orderForm">
+                    <div class="form-fields">
+                        <div class="form-group">
+                            <label for="customerName">Your Name</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">Phone Number</label>
+                            <input type="tel" id="customerPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialInstructions">Special Instructions (Optional)</label>
+                            <textarea id="specialInstructions" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="place-order-btn">Order Now via WhatsApp</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Authentic South Indian Cuisine</h1>
+            <p>Experience the rich flavors and aromatic spices of traditional South Indian dishes, crafted with love and served with warmth.</p>
+            <a href="#menu" class="btn btn-primary">Explore Our Menu</a>
+        </section>
+
+        <!-- Menu Section -->
+        <section class="section" id="menu">
+            <div class="section-title">
+                <h2>Our Menu</h2>
+                <p>Discover our delicious selection of authentic South Indian dishes and refreshing drinks</p>
+            </div>
+
+            <div class="menu-categories">
+                <button class="category-btn active" data-category="all">All Items</button>
+                <button class="category-btn" data-category="breakfast">Breakfast</button>
+                <button class="category-btn" data-category="main">Main Course</button>
+                <button class="category-btn" data-category="snacks">Snacks</button>
+                <button class="category-btn" data-category="desserts">Desserts</button>
+                <button class="category-btn" data-category="drinks">Drinks</button>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menu items will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section" id="about">
+            <div class="section-title">
+                <h2>About Us</h2>
+                <p>Our story and commitment to authentic South Indian flavors</p>
+            </div>
+            <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
+                    Spice Garden was founded with a passion for bringing authentic South Indian cuisine to food lovers. 
+                    Our chefs use traditional recipes passed down through generations, combined with the freshest ingredients, 
+                    to create dishes that truly represent the diverse culinary heritage of South India.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    From the crispy dosas of Karnataka to the flavorful biryanis of Hyderabad, 
+                    each dish tells a story of culture, tradition, and culinary excellence.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section" id="contact">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>We'd love to hear from you</p>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                    <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i>
+                    123 Spice Street, Chennai, Tamil Nadu
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                    <i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i>
+                    +91 8055698328
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
+                    <i class="fas fa-clock" style="color: var(--primary); margin-right: 10px;"></i>
+                    Open: 8:00 AM - 10:30 PM (Everyday)
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <span class="close-welcome" id="closeWelcome">&times;</span>
+            <div class="welcome-icon">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <h2 class="welcome-title">Welcome to Spice Garden!</h2>
+            <p class="welcome-message">Thank you for visiting our restaurant. We're delighted to serve you authentic South Indian cuisine made with love and traditional recipes.</p>
+            
+            <div class="welcome-features">
+                <div class="welcome-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>100% Fresh Ingredients</span>
+                </div>
+                <div class="welcome-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Traditional Recipes</span>
+                </div>
+                <div class="welcome-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Hygienic Kitchen</span>
+                </div>
+                <div class="welcome-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Quick Delivery</span>
+                </div>
+                <div class="welcome-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Refreshing Drinks</span>
+                </div>
+                <div class="welcome-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Authentic Flavors</span>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" id="startOrdering">Start Ordering</button>
+        </div>
+    </div>
+
+    <!-- Cart Float -->
+    <div class="cart-float" id="cartFloat">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-float-count" id="cartFloatCount">0</span>
+    </div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/918055698328" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Share Float -->
+    <div class="share-float" id="shareWebsite">
+        <i class="fas fa-share-alt"></i>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Spice Garden</h3>
+                <p>Authentic South Indian cuisine crafted with traditional recipes and the freshest ingredients.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <p>123 Spice Street, Chennai, Tamil Nadu</p>
+                <p>+91 8055698328</p>
+                <p>Open: 8:00 AM - 10:30 PM (Everyday)</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Spice Garden. All Rights Reserved.</p>
+            <p class="powered-by-footer">Powered by NexGenAiTech</p>
+        </div>
+    </footer>
+
+    <script>
+        // South Indian Menu Data with reliable images
+        const menuItems = [
+            {
+                id: 1,
+                name: "Masala Dosa",
+                description: "Crispy rice crepe filled with spiced potatoes, served with sambar and chutney.",
+                price: 120,
+                category: "breakfast",
+                image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFzYWxhJTIwZG9zYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 2,
+                name: "Idli Sambar",
+                description: "Soft steamed rice cakes served with lentil stew and coconut chutney.",
+                price: 80,
+                category: "breakfast",
+                image: "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aWRsaSUyMHNhbWJhcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 3,
+                name: "Vada",
+                description: "Crispy lentil donuts served with sambar and coconut chutney.",
+                price: 70,
+                category: "breakfast",
+                image: "https://images.unsplash.com/photo-1633617477275-3c57b6ff6e2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dmFkYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 4,
+                name: "Uttapam",
+                description: "Savory pancake with tomatoes, onions, and green chilies.",
+                price: 100,
+                category: "breakfast",
+                image: "https://images.unsplash.com/photo-1583354443600-39b5d91fc972?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dXR0YXBhbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 5,
+                name: "Pongal",
+                description: "Comforting rice and lentil dish tempered with black pepper and cumin.",
+                price: 90,
+                category: "breakfast",
+                image: "https://images.unsplash.com/photo-1603114596672-4c6f58ea1ee5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cG9uZ2FsfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 6,
+                name: "Hyderabadi Biryani",
+                description: "Fragrant basmati rice cooked with marinated vegetables and aromatic spices.",
+                price: 220,
+                category: "main",
+                image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlyeWFuaXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 7,
+                name: "Sambar Rice",
+                description: "Steamed rice served with lentil stew and ghee.",
+                price: 110,
+                category: "main",
+                image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8c2FtYmFyJTIwcmljZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 8,
+                name: "Rasam",
+                description: "Tangy tamarind and tomato soup with spices, served with rice.",
+                price: 90,
+                category: "main",
+                image: "https://images.unsplash.com/photo-1603114594860-5d0412b41a37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmFzYW18ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 9,
+                name: "Medu Vada",
+                description: "Crispy savory donuts made from urad dal, served with chutney.",
+                price: 85,
+                category: "snacks",
+                image: "https://images.unsplash.com/photo-1633617477285-3c57b6ff6e2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWVkdSUyMHZhZGF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 10,
+                name: "Bisi Bele Bath",
+                description: "Traditional Karnataka rice dish with lentils and vegetables.",
+                price: 130,
+                category: "main",
+                image: "https://images.unsplash.com/photo-1603114595741-e3fc453542e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlzaSUyMGJlbGUJMjBiYXRofGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 11,
+                name: "Filter Coffee",
+                description: "Traditional South Indian filter coffee, strong and aromatic.",
+                price: 50,
+                category: "drinks",
+                image: "https://images.unsplash.com/photo-1536244881128-91c3e4f9f143?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZmlsdGVyJTIwY29mZmVlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 12,
+                name: "Payasam",
+                description: "Sweet pudding made with milk, rice, jaggery and nuts.",
+                price: 80,
+                category: "desserts",
+                image: "https://images.unsplash.com/photo-1603114594836-3c66c2918e3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGF5YXNhbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 13,
+                name: "Mysore Pak",
+                description: "Rich gram flour and ghee sweet from Karnataka.",
+                price: 70,
+                category: "desserts",
+                image: "https://images.unsplash.com/photo-1603114594880-5c0c58e53cce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bXlzb3JlJTIwcGFrfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 14,
+                name: "Pongal Vada Combo",
+                description: "A perfect combination of savory pongal and crispy vada.",
+                price: 140,
+                category: "breakfast",
+                image: "https://images.unsplash.com/photo-1603114594861-5d0412b41a37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cG9uZ2FsJTIwdmFkYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 15,
+                name: "Rava Kesari",
+                description: "Sweet semolina pudding with saffron and nuts.",
+                price: 75,
+                category: "desserts",
+                image: "https://images.unsplash.com/photo-1603114594828-3d6a4e216c47?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8a2VzYXJpfGVufDB8fDB8fHww&auto=format&fit|crop&w=500&q=60"
+            },
+            {
+                id: 16,
+                name: "Pesarattu",
+                description: "Green gram dosa from Andhra Pradesh, served with ginger chutney.",
+                price: 110,
+                category: "breakfast",
+                image: "https://images.unsplash.com/photo-1603114594740-5d0412b41a38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVzYXJhdHR1fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 17,
+                name: "Avial",
+                description: "Mixed vegetables in coconut and yogurt gravy, a Kerala specialty.",
+                price: 160,
+                category: "main",
+                image: "https://images.unsplash.com/photo-1603114594741-5d0412b41a38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YXZpYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 18,
+                name: "Bonda",
+                description: "Deep-fried potato snack, crispy outside and soft inside.",
+                price: 70,
+                category: "snacks",
+                image: "https://images.unsplash.com/photo-1603114594742-5d0412b41a38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Ym9uZGF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 19,
+                name: "Jalebi",
+                description: "Crispy, syrupy swirls of delight, best served warm.",
+                price: 60,
+                category: "desserts",
+                image: "https://images.unsplash.com/photo-1633617477285-3c57b6ff6e2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8amFsZWJpfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 20,
+                name: "Curd Rice",
+                description: "Cooling rice with yogurt, tempered with mustard and curry leaves.",
+                price: 90,
+                category: "main",
+                image: "https://images.unsplash.com/photo-1603114594743-5d0412b41a38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y3VyZCUyMHJpY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 21,
+                name: "Fresh Lime Soda",
+                description: "Refreshing lime soda with a hint of salt or sugar.",
+                price: 40,
+                category: "drinks",
+                image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGxpbWUlMjBzb2RhfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 22,
+                name: "Mango Lassi",
+                description: "Creamy yogurt drink with ripe mango pulp.",
+                price: 60,
+                category: "drinks",
+                image: "https://images.unsplash.com/photo-1563720140186-3c91e45c950d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFuZ28lMjBsYXNzaXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 23,
+                name: "Buttermilk",
+                description: "Traditional South Indian spiced buttermilk.",
+                price: 30,
+                category: "drinks",
+                image: "https://images.unsplash.com/photo-1596383522851-ec087b0c5c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnV0dGVybWlsa3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 24,
+                name: "Mineral Water",
+                description: "Pure bottled mineral water.",
+                price: 20,
+                category: "drinks",
+                image: "https://images.unsplash.com/photo-1548839143-3f4a21363c7f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2F0ZXIlMjBib3R0bGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 25,
+                name: "Badam Milk",
+                description: "Hot or cold almond milk with saffron and nuts.",
+                price: 70,
+                category: "drinks",
+                image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmFkYW0lMjBtaWxrfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 26,
+                name: "Rose Milk",
+                description: "Refreshing milk with rose syrup and nuts.",
+                price: 55,
+                category: "drinks",
+                image: "https://images.unsplash.com/photo-1612550761256-8b7aaba9d5d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9zZSUyMG1pbGt8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            }
+        ];
+
+        // DOM Elements
+        const menuGrid = document.getElementById('menuGrid');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const cartItems = document.getElementById('cartItems');
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+        const cartTotal = document.getElementById('cartTotal');
+        const orderForm = document.getElementById('orderForm');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const welcomeModal = document.getElementById('welcomeModal');
+        const closeWelcome = document.getElementById('closeWelcome');
+        const startOrdering = document.getElementById('startOrdering');
+        const shareWebsite = document.getElementById('shareWebsite');
+        const header = document.getElementById('header');
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.getElementById('nav');
+        const drinksIcon = document.getElementById('drinksIcon');
+        const cartFloat = document.getElementById('cartFloat');
+        const cartFloatCount = document.getElementById('cartFloatCount');
+        const logo = document.getElementById('logo');
+
+        // Shopping cart
+        let cart = [];
+        let lastScrollTop = 0;
+
+        // Initialize menu
+        function initMenu() {
+            menuGrid.innerHTML = '';
+            
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.classList.add('menu-item');
+                menuItem.dataset.category = item.category;
+                
+                menuItem.innerHTML = `
+                    <div class="item-share-top" data-id="${item.id}">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="menu-item-image">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1517244683847-7456b63c5969?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c291dGglMjBpbmRpYW4lMjBmb29kfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60'">
+                    </div>
+                    <div class="menu-item-content">
+                        <h3 class="menu-item-title">${item.name}</h3>
+                        <p class="menu-item-description">${item.description}</p>
+                        <div class="menu-item-footer">
+                            <div class="menu-item-price">₹${item.price}</div>
+                            <div class="item-actions">
+                                <button class="add-to-cart-btn" data-id="${item.id}">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                menuGrid.appendChild(menuItem);
+            });
+            
+            // Add event listeners to add to cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const itemId = parseInt(this.dataset.id);
+                    addToCart(itemId);
+                });
+            });
+            
+            // Add event listeners to share buttons at top
+            document.querySelectorAll('.item-share-top').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const itemId = parseInt(this.dataset.id);
+                    shareMenuItem(itemId);
+                });
+            });
+        }
+
+        // Add item to cart
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            const existingItem = cart.find(i => i.id === itemId);
+            
+            if (existingItem) {
+                if (existingItem.quantity < 10) {
+                    existingItem.quantity++;
+                } else {
+                    alert(`Maximum quantity of 10 reached for ${item.name}`);
+                    return;
+                }
+            } else {
+                cart.push({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            showAddedToCartMessage(item.name);
+            
+            // Update cart sidebar if it's open
+            if (cartSidebar.classList.contains('active')) {
+                updateCartSidebar();
+            }
+        }
+
+        // Show added to cart message
+        function showAddedToCartMessage(itemName) {
+            const message = document.createElement('div');
+            message.innerHTML = `<i class="fas fa-check-circle"></i> ${itemName} added to cart`;
+            message.style.position = 'fixed';
+            message.style.bottom = '20px';
+            message.style.left = '50%';
+            message.style.transform = 'translateX(-50%)';
+            message.style.backgroundColor = 'var(--secondary)';
+            message.style.color = 'white';
+            message.style.padding = '10px 20px';
+            message.style.borrowRadius = '50px';
+            message.style.boxShadow = 'var(--shadow)';
+            message.style.zIndex = '1000';
+            message.style.opacity = '0';
+            message.style.transition = 'opacity 0.3s ease';
+            
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.style.opacity = '1';
+            }, 10);
+            
+            setTimeout(() => {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(message);
+                }, 300);
+            }, 2000);
+        }
+
+        // Update cart count in header
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartFloatCount.textContent = totalItems;
+        }
+
+        // Update cart sidebar
+        function updateCartSidebar() {
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                cartTotal.textContent = '₹0.00';
+                return;
+            }
+            
+            emptyCartMessage.style.display = 'none';
+            
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">₹${item.price} each</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <div class="quantity-btn decrease-btn" data-id="${item.id}">-</div>
+                        <div class="cart-item-quantity">${item.quantity}</div>
+                        <div class="quantity-btn increase-btn" data-id="${item.id}">+</div>
+                        <div class="remove-item" data-id="${item.id}">&times;</div>
+                    </div>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = `₹${total.toFixed(2)}`;
+            
+            // Add event listeners to quantity buttons
+            document.querySelectorAll('.increase-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const itemId = parseInt(this.dataset.id);
+                    increaseQuantity(itemId);
+                });
+            });
+            
+            document.querySelectorAll('.decrease-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const itemId = parseInt(this.dataset.id);
+                    decreaseQuantity(itemId);
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const itemId = parseInt(this.dataset.id);
+                    removeFromCart(itemId);
+                });
+            });
+        }
+
+        // Increase item quantity
+        function increaseQuantity(itemId) {
+            const item = cart.find(i => i.id === itemId);
+            if (item && item.quantity < 10) {
+                item.quantity++;
+                updateCartSidebar();
+                updateCartCount();
+            }
+        }
+
+        // Decrease item quantity
+        function decreaseQuantity(itemId) {
+            const item = cart.find(i => i.id === itemId);
+            if (item) {
+                item.quantity--;
+                if (item.quantity === 0) {
+                    removeFromCart(itemId);
+                } else {
+                    updateCartSidebar();
+                    updateCartCount();
+                }
+            }
+        }
+
+        // Remove item from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(i => i.id !== itemId);
+            updateCartSidebar();
+            updateCartCount();
+        }
+
+        // Open cart sidebar
+        function openCartSidebar() {
+            updateCartSidebar();
+            cartSidebar.classList.add('active');
+        }
+
+        // Close cart sidebar
+        function closeCartSidebar() {
+            cartSidebar.classList.remove('active');
+        }
+
+        // Share menu item
+        function shareMenuItem(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            const shareText = `Check out ${item.name} at Spice Garden - ${item.description} for just ₹${item.price}. Visit our website for more delicious South Indian dishes!`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: item.name,
+                    text: shareText,
+                    url: 'https://nexgenaitech.github.io/i/food'
+                })
+                .catch(error => {
+                    console.log('Error sharing:', error);
+                    copyToClipboard(shareText + " https://nexgenaitech.github.io/i/food");
+                });
+            } else {
+                copyToClipboard(shareText + " https://nexgenaitech.github.io/i/food");
+            }
+        }
+
+        // Copy text to clipboard
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            alert('Item details copied to clipboard!');
+        }
+
+        // Share website
+        function shareWebsiteUrl() {
+            const shareText = "Discover authentic South Indian cuisine at Spice Garden! Delicious dosas, biryanis, and traditional dishes crafted with love. Visit now!";
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Spice Garden - South Indian Restaurant',
+                    text: shareText,
+                    url: 'https://nexgenaitech.github.io/i/food'
+                })
+                .catch(error => {
+                    console.log('Error sharing:', error);
+                    copyToClipboard(shareText + " https://nexgenaitech.github.io/i/food");
+                });
+            } else {
+                copyToClipboard(shareText + " https://nexgenaitech.github.io/i/food");
+            }
+        }
+
+        // Close welcome modal
+        closeWelcome.addEventListener('click', function() {
+            welcomeModal.style.display = 'none';
+        });
+
+        // Start ordering button
+        startOrdering.addEventListener('click', function() {
+            welcomeModal.style.display = 'none';
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Share website button
+        shareWebsite.addEventListener('click', shareWebsiteUrl);
+
+        // Cart float click
+        cartFloat.addEventListener('click', openCartSidebar);
+
+        // Close sidebar
+        closeSidebar.addEventListener('click', closeCartSidebar);
+
+        // Drinks icon click
+        drinksIcon.addEventListener('click', function() {
+            filterMenu('drinks');
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (cartSidebar.classList.contains('active') && 
+                !cartSidebar.contains(e.target) && 
+                e.target !== cartFloat && 
+                !cartFloat.contains(e.target)) {
+                closeCartSidebar();
+            }
+        });
+
+        // Handle form submission
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add items to your cart before ordering.');
+                return;
+            }
+            
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const specialInstructions = document.getElementById('specialInstructions').value;
+            
+            // Create WhatsApp message
+            let message = `Hello Spice Garden! I would like to order:\n\n`;
+            
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `*${item.name}* - ₹${item.price} x ${item.quantity} = ₹${itemTotal}\n`;
+            });
+            
+            message += `\n*Total: ₹${total.toFixed(2)}*\n\n`;
+            message += `*Name:* ${customerName}\n`;
+            message += `*Phone:* ${customerPhone}\n\n`;
+            message += `*Special Instructions:* ${specialInstructions || 'None'}\n\n`;
+            message += `Please confirm my order. Thank you!`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open WhatsApp
+            window.open(`https://wa.me/918055698328?text=${encodedMessage}`, '_blank');
+            
+            // Reset form and cart
+            orderForm.reset();
+            cart = [];
+            updateCartCount();
+            updateCartSidebar();
+            closeCartSidebar();
+            
+            // Show success message
+            alert('Your order is being processed via WhatsApp! We will confirm your order shortly.');
+        });
+
+        // Filter menu by category
+        function filterMenu(category) {
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.category-btn[data-category="${category}"]`).classList.add('active');
+        }
+
+        // Add event listeners to category buttons
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                filterMenu(category);
+            });
+        });
+
+        // Scroll Progress Bar
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+            
+            // Hide/show header on scroll
+            const st = window.pageYOffset || document.documentElement.scrollTop;
+            if (st > lastScrollTop && st > 100) {
+                // Scroll down - hide header
+                header.classList.add('hide');
+            } else {
+                // Scroll up - show header
+                header.classList.remove('hide');
+            }
+            lastScrollTop = st <= 0 ? 0 : st;
+        };
+
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', function() {
+            nav.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                nav.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // Logo click to scroll to top
+        logo.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Show welcome modal on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                welcomeModal.style.display = 'flex';
+            }, 1000);
+        });
+
+        // Initialize the menu
+        initMenu();
+    </script>
+</body>
+</html>
