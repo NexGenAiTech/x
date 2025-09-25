@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankalp Shiksha Salemgarh - Admission Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 22px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 18px;
+            left: 22px;
+            font-size: 22px;
+            background: white;
+            color: #3a0ca3;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-content {
+            padding: 25px;
+        }
+        
+        .form-section {
+            width: 100%;
+        }
+        
+        .form-container {
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 18px;
+            font-size: 22px;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: #4361ee;
+            border-radius: 3px;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 13px;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: #4361ee;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            background: white;
+        }
+        
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+        
+        button:hover {
+            background: #3a0ca3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result {
+            margin-top: 18px;
+            padding: 18px;
+            background: #e8f4fc;
+            border-radius: 8px;
+            display: none;
+            border-left: 4px solid #4361ee;
+        }
+        
+        .result h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+        
+        .result h3 i {
+            margin-right: 8px;
+            color: #27ae60;
+        }
+        
+        .result p {
+            margin: 6px 0;
+            word-break: break-all;
+            display: flex;
+            font-size: 14px;
+        }
+        
+        .result strong {
+            min-width: 140px;
+            display: inline-block;
+        }
+        
+        .info-text {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+            font-style: italic;
+        }
+        
+        .toggle-form {
+            text-align: center;
+            margin-top: 18px;
+            color: #64748b;
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+        
+        .toggle-form a {
+            color: #4361ee;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+        
+        .welcome-container {
+            padding: 25px;
+            display: none;
+        }
+        
+        .welcome-container h2 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+        
+        .user-info {
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            font-size: 14px;
+        }
+        
+        .user-info p {
+            margin: 4px 0;
+        }
+        
+        .dashboard {
+            margin: 25px 0;
+        }
+        
+        .dashboard h3 {
+            color: #2c3e50;
+            margin-bottom: 18px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dashboard h3 i {
+            margin-right: 8px;
+        }
+        
+        .portal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .portal-btn {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 120px;
+        }
+        
+        .portal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #4361ee;
+        }
+        
+        .portal-btn i {
+            font-size: 24px;
+            color: #4361ee;
+            margin-bottom: 10px;
+        }
+        
+        .portal-btn h4 {
+            color: #2c3e50;
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+        
+        .portal-btn p {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            margin-top: 12px;
+            max-width: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        
+        .modal-header h3 {
+            color: #2c3e50;
+            font-size: 20px;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #64748b;
+            width: auto;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .close-btn:hover {
+            background: none;
+            transform: none;
+            box-shadow: none;
+            color: #e74c3c;
+        }
+        
+        .modal-form-group {
+            margin-bottom: 18px;
+        }
+        
+        .modal-form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 13px;
+        }
+        
+        .modal-form-group input, .modal-form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s;
+            resize: vertical;
+            background: #f8fafc;
+        }
+        
+        .modal-form-group textarea {
+            min-height: 100px;
+        }
+        
+        .modal-form-group input:focus, .modal-form-group textarea:focus {
+            border-color: #4361ee;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            background: white;
+        }
+        
+        .modal-btn {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .modal-btn:hover {
+            background: #3a0ca3;
+        }
+        
+        .modal-result {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #155724;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #721c24;
+        }
+        
+        @media (max-width: 900px) {
+            .portal-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .header p {
+                font-size: 13px;
+            }
+            
+            .logo {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                top: 15px;
+                left: 15px;
+            }
+            
+            .user-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>Sankalp Shiksha Salemgarh</h1>
+            <p>Student Registration and Login</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <!-- Registration Form -->
+                <div class="form-container" id="registration-section">
+                    <h2>Student Registration</h2>
+                    <form id="registration-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number</label>
+                            <input type="tel" id="mobile" required placeholder="10-digit mobile number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required placeholder="Your email address">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class">Class</label>
+                            <select id="class" required>
+                                <option value="">Select your class</option>
+                                <option value="9">Class 9</option>
+                                <option value="10">Class 10</option>
+                                <option value="11">Class 11</option>
+                                <option value="12">Class 12</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="board">Exam Board</label>
+                            <select id="board" required>
+                                <option value="">Select your exam board</option>
+                                <option value="CBSE">CBSE</option>
+                                <option value="ICSE">ICSE</option>
+                                <option value="State Board">State Board</option>
+                                <option value="International">International Board</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="text" id="dob" required placeholder="DDMMYYYY (e.g., 24092025 for 24 Sep 2025)" maxlength="8">
+                            <p class="info-text">Format: DDMMYYYY (e.g., 24092025 for 24 Sep 2025)</p>
+                        </div>
+                        
+                        <button type="submit">Generate Registration</button>
+                    </form>
+                    
+                    <div class="result" id="registration-result">
+                        <h3><i class="fas fa-check-circle"></i> Registration Successful!</h3>
+                        <p><strong>Registration Number:</strong> <span id="reg-number-result"></span></p>
+                        <p><strong>Login Password:</strong> <span id="password-result"></span></p>
+                        <p class="info-text">Save these credentials for future login.</p>
+                    </div>
+                    
+                    <div class="toggle-form">
+                        <span>Already registered? </span>
+                        <a onclick="showLogin()">Login here</a>
+                    </div>
+                </div>
+                
+                <!-- Login Form -->
+                <div class="form-container" id="login-section" style="display: none;">
+                    <h2>Student Login</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-reg-number">Registration Number</label>
+                            <input type="text" id="login-reg-number" required placeholder="10-digit registration number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-dob">Date of Birth</label>
+                            <input type="text" id="login-dob" required placeholder="DDMMYYYY (e.g., 24092025)" maxlength="8">
+                            <p class="info-text">Enter your date of birth in DDMMYYYY format</p>
+                        </div>
+                        
+                        <button type="submit">Login to Dashboard</button>
+                    </form>
+                    
+                    <div class="toggle-form">
+                        <span>Not registered yet? </span>
+                        <a onclick="showRegistration()">Register here</a>
+                    </div>
+                </div>
+                
+                <!-- Welcome Section (After Login) -->
+                <div class="welcome-container" id="welcome-section">
+                    <h2>Welcome, <span id="student-name"></span>!</h2>
+                    <p>Successfully logged in to Sankalp Shiksha Salemgarh</p>
+                    
+                    <div class="user-info">
+                        <p><strong>Registration Number:</strong> <span id="display-reg-number"></span></p>
+                        <p><strong>Date of Birth:</strong> <span id="display-dob"></span></p>
+                        <p><strong>Class:</strong> <span id="display-class"></span></p>
+                        <p><strong>Board:</strong> <span id="display-board"></span></p>
+                        <p><strong>Mobile:</strong> <span id="display-mobile"></span></p>
+                        <p><strong>Email:</strong> <span id="display-email"></span></p>
+                    </div>
+                    
+                    <div class="dashboard">
+                        <h3><i class="fas fa-tasks"></i> Portal Options</h3>
+                        
+                        <div class="portal-buttons">
+                            <div class="portal-btn" onclick="openWhatsAppModal()">
+                                <i class="fab fa-whatsapp"></i>
+                                <h4>Message Student</h4>
+                                <p>Send message via WhatsApp</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Message Modal -->
+    <div class="modal" id="whatsapp-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Send Message to Student</h3>
+                <button class="close-btn" onclick="closeWhatsAppModal()">&times;</button>
+            </div>
+            
+            <form id="whatsapp-form">
+                <div class="modal-form-group">
+                    <label for="teacher-name">Teacher Name</label>
+                    <input type="text" id="teacher-name" required placeholder="Enter teacher's name">
+                </div>
+                
+                <div class="modal-form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" required placeholder="Type your message here"></textarea>
+                </div>
+                
+                <button type="submit" class="modal-btn">
+                    <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                </button>
+            </form>
+            
+            <div class="modal-result" id="whatsapp-result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Show registration form
+        function showRegistration() {
+            document.getElementById('registration-section').style.display = 'block';
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('registration-form').reset();
+            document.getElementById('registration-result').style.display = 'none';
+        }
+        
+        // Show login form
+        function showLogin() {
+            document.getElementById('registration-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('login-form').reset();
+        }
+        
+        // Validate DDMMYYYY format
+        function isValidDDMMYYYY(dateString) {
+            // Check if it's exactly 8 digits
+            if (!/^\d{8}$/.test(dateString)) {
+                return false;
+            }
+            
+            // Extract day, month, year
+            const day = parseInt(dateString.substring(0, 2));
+            const month = parseInt(dateString.substring(2, 4));
+            const year = parseInt(dateString.substring(4, 8));
+            
+            // Check if month is valid
+            if (month < 1 || month > 12) {
+                return false;
+            }
+            
+            // Check if day is valid for the given month
+            const daysInMonth = new Date(year, month, 0).getDate();
+            if (day < 1 || day > daysInMonth) {
+                return false;
+            }
+            
+            // Check if year is reasonable (between 1900 and current year + 10)
+            const currentYear = new Date().getFullYear();
+            if (year < 1900 || year > currentYear + 10) {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Format DDMMYYYY to readable date
+        function formatDDMMYYYYToReadable(dateString) {
+            if (!isValidDDMMYYYY(dateString)) {
+                return "Invalid Date";
+            }
+            
+            const day = dateString.substring(0, 2);
+            const month = dateString.substring(2, 4);
+            const year = dateString.substring(4, 8);
+            
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            return `${day} ${monthNames[parseInt(month) - 1]} ${year}`;
+        }
+        
+        // Generate 10-digit registration number based on user data
+        function generateRegistrationNumber(userData) {
+            // Create a combined string from user data
+            const combinedString = userData.name + userData.mobile + userData.email + userData.class + userData.board + userData.dob;
+            
+            // Generate a hash from the combined string
+            let hash = 0;
+            for (let i = 0; i < combinedString.length; i++) {
+                const char = combinedString.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            
+            // Ensure we have a positive 10-digit number
+            return Math.abs(hash % 9000000000) + 1000000000;
+        }
+        
+        // Save user data to Google Sheets (simulated)
+        function saveToGoogleSheets(data, type) {
+            // In a real implementation, you would send this data to Google Apps Script
+            console.log(`Saving ${type} to Google Sheets:`, data);
+        }
+        
+        // Handle registration form submission
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const mobile = document.getElementById('mobile').value;
+            const email = document.getElementById('email').value;
+            const cls = document.getElementById('class').value;
+            const board = document.getElementById('board').value;
+            const dob = document.getElementById('dob').value;
+            
+            if (!name || !mobile || !email || !cls || !board || !dob) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Validate mobile number
+            if (!/^\d{10}$/.test(mobile)) {
+                alert('Please enter a valid 10-digit mobile number');
+                return;
+            }
+            
+            // Validate date of birth format
+            if (!isValidDDMMYYYY(dob)) {
+                alert('Please enter a valid date in DDMMYYYY format (e.g., 24092025 for 24 Sep 2025)');
+                return;
+            }
+            
+            // Create user data object
+            const userData = {
+                name: name,
+                mobile: mobile,
+                email: email,
+                class: cls,
+                board: board,
+                dob: dob,
+                password: dob, // Using DDMMYYYY as password
+                timestamp: new Date().toLocaleString()
+            };
+            
+            // Generate 10-digit registration number
+            const regNumber = generateRegistrationNumber(userData);
+            userData.regNumber = regNumber;
+            
+            // Store user data in localStorage
+            localStorage.setItem('user_' + regNumber, JSON.stringify(userData));
+            
+            // Save registration data to Google Sheets
+            saveToGoogleSheets(userData, 'registration');
+            
+            // Display the results
+            document.getElementById('reg-number-result').textContent = regNumber;
+            document.getElementById('password-result').textContent = dob;
+            document.getElementById('registration-result').style.display = 'block';
+            
+            // Clear the form
+            document.getElementById('registration-form').reset();
+        });
+        
+        // Handle login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const regNumber = document.getElementById('login-reg-number').value;
+            const dob = document.getElementById('login-dob').value;
+            
+            // Validate date of birth format
+            if (!isValidDDMMYYYY(dob)) {
+                alert('Please enter a valid date in DDMMYYYY format (e.g., 24092025 for 24 Sep 2025)');
+                return;
+            }
+            
+            // Retrieve user data from localStorage
+            const userData = JSON.parse(localStorage.getItem('user_' + regNumber));
+            
+            if (userData && userData.password === dob) {
+                // Login successful - show welcome message
+                document.getElementById('student-name').textContent = userData.name;
+                document.getElementById('display-reg-number').textContent = userData.regNumber;
+                document.getElementById('display-dob').textContent = formatDDMMYYYYToReadable(userData.dob);
+                document.getElementById('display-class').textContent = 'Class ' + userData.class;
+                document.getElementById('display-board').textContent = userData.board;
+                document.getElementById('display-mobile').textContent = userData.mobile;
+                document.getElementById('display-email').textContent = userData.email;
+                
+                // Show welcome section, hide others
+                document.getElementById('registration-section').style.display = 'none';
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('welcome-section').style.display = 'block';
+                
+                // Save login data to Google Sheets
+                const loginData = {
+                    regNumber: userData.regNumber,
+                    name: userData.name,
+                    class: userData.class,
+                    board: userData.board,
+                    loginTime: new Date().toLocaleString(),
+                    type: 'login'
+                };
+                saveToGoogleSheets(loginData, 'login');
+                
+                // Clear the form
+                document.getElementById('login-form').reset();
+            } else {
+                alert('Invalid registration number or date of birth. Please try again.');
+            }
+        });
+        
+        // Logout function
+        function logout() {
+            // Save logout data to Google Sheets
+            const regNumber = document.getElementById('display-reg-number').textContent;
+            const userData = JSON.parse(localStorage.getItem('user_' + regNumber));
+            
+            if (userData) {
+                const logoutData = {
+                    regNumber: userData.regNumber,
+                    name: userData.name,
+                    class: userData.class,
+                    board: userData.board,
+                    logoutTime: new Date().toLocaleString(),
+                    type: 'logout'
+                };
+                saveToGoogleSheets(logoutData, 'logout');
+            }
+            
+            showLogin();
+        }
+        
+        // WhatsApp Modal Functions
+        function openWhatsAppModal() {
+            document.getElementById('whatsapp-modal').style.display = 'flex';
+            document.getElementById('whatsapp-form').reset();
+            document.getElementById('whatsapp-result').style.display = 'none';
+        }
+        
+        function closeWhatsAppModal() {
+            document.getElementById('whatsapp-modal').style.display = 'none';
+        }
+        
+        // Handle WhatsApp form submission
+        document.getElementById('whatsapp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const teacherName = document.getElementById('teacher-name').value;
+            const message = document.getElementById('message').value;
+            
+            if (!teacherName || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Get user data
+            const regNumber = document.getElementById('display-reg-number').textContent;
+            const userData = JSON.parse(localStorage.getItem('user_' + regNumber));
+            
+            // Create the WhatsApp message with student info automatically included
+            const fullMessage = `Hello ${userData.name} (Class ${userData.class}),\n\n${message}\n\n---\nFrom: ${teacherName}\nSankalp Shiksha Salemgarh`;
+            
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(fullMessage);
+            
+            // Create WhatsApp URL with student's mobile number
+            const whatsappUrl = `https://wa.me/91${userData.mobile}?text=${encodedMessage}`;
+            
+            // Open WhatsApp with the pre-filled message to the student
+            window.open(whatsappUrl, '_blank');
+            
+            // Show success message
+            const resultDiv = document.getElementById('whatsapp-result');
+            resultDiv.textContent = `Message sent to ${userData.name} (${userData.mobile}) successfully!`;
+            resultDiv.className = 'modal-result success';
+            resultDiv.style.display = 'block';
+            
+            // Close the modal after 2 seconds
+            setTimeout(() => {
+                closeWhatsAppModal();
+            }, 2000);
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('whatsapp-modal')) {
+                closeWhatsAppModal();
+            }
+        });
+    </script>
+</body>
+</html>
