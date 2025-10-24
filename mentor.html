@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerPath Pro - Student Career Guidance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #0a0f1e;   /* Premium Dark Blue */
+            --secondary-color: #1a243d; /* Rich Navy */
+            --accent-color: #c9a96e;    /* Premium Gold */
+            --accent-light: #e4d4b4;    /* Light Gold */
+            --text-color: #e8eef7;
+            --text-secondary: #b8c2d9;
+            --bg-color: #0d1425;
+            --card-bg: #151e33;
+            --input-bg: #1c2845;
+            --border-color: #2a3755;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --header-bg: rgba(13, 20, 37, 0.95);
+            --message-user-bg: #1a2840;
+            --message-bot-bg: #1e2c47;
+            --message-user-text: #e8eef7;
+            --message-bot-text: #e8eef7;
+            --header-height: 49px;
+            --success-color: #2ecc71;
+            --info-color: #3498db;
+            --warning-color: #f39c12;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Header styling */
+        .main-header {
+            background: var(--header-bg);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px var(--shadow-color);
+            transition: background 0.3s, box-shadow 0.3s;
+            height: var(--header-height);
+            min-height: var(--header-height);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(201, 169, 110, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.4rem;
+            background: linear-gradient(to right, var(--accent-color), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0px 2px 3px var(--shadow-color);
+            letter-spacing: -0.5px;
+        }
+
+        .career-part {
+            color: var(--accent-color);
+            font-weight: 800;
+        }
+
+        .path-part {
+            color: var(--accent-light);
+            font-weight: 800;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-controls button {
+            background: rgba(201, 169, 110, 0.1);
+            color: var(--accent-color);
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            padding: 6px 12px;
+            border-radius: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.3s, transform 0.2s;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .header-controls button:hover {
+            background: rgba(201, 169, 110, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Chat area styling */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 15px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            overflow: hidden;
+            transition: background 0.3s, box-shadow 0.3s;
+            max-width: 1200px;
+            width: 95%;
+            align-self: center;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: var(--bg-color);
+            transition: background 0.3s;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            font-size: 0.85rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background: var(--message-bot-bg);
+            border-bottom-left-radius: 5px;
+            color: var(--message-bot-text);
+            transition: background 0.3s, color 0.3s;
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: var(--message-user-bg);
+            color: var(--message-user-text);
+            border-bottom-right-radius: 5px;
+            border-right: 2px solid var(--accent-color);
+        }
+
+        .message-content {
+            margin-bottom: 5px;
+        }
+
+        .timestamp {
+            font-size: 0.65rem;
+            text-align: right;
+            margin-top: 5px;
+            opacity: 0.7;
+            color: var(--text-secondary);
+        }
+
+        .chat-input-container {
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            gap: 10px;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .chat-input {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            outline: none;
+            font-size: 0.85rem;
+            transition: border-color 0.3s;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .chat-input input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.2);
+        }
+
+        .send-button {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s, transform 0.2s;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .send-button:hover {
+            background: var(--accent-light);
+            transform: scale(1.05);
+        }
+
+        .send-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 10px;
+            gap: 5px;
+            align-self: flex-start;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        /* Suggestion chips styling */
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .suggestion-chip {
+            background: rgba(201, 169, 110, 0.1);
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            border-radius: 14px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--accent-color);
+        }
+
+        .suggestion-chip:hover {
+            background: rgba(201, 169, 110, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Action buttons styling */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .action-button {
+            background: rgba(201, 169, 110, 0.1);
+            color: var(--accent-color);
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            border-radius: 16px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .action-button:hover {
+            background: rgba(201, 169, 110, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        /* Footer with usage tips */
+        .chat-footer {
+            padding: 10px;
+            text-align: center;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        /* Info Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+
+        .config-group {
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+
+        .config-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .model-info {
+            background: rgba(201, 169, 110, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .info-badge {
+            background: rgba(201, 169, 110, 0.1);
+            border-radius: 4px;
+            padding: 3px 6px;
+            font-size: 0.65rem;
+            color: var(--accent-color);
+            margin-top: 5px;
+            display: inline-block;
+            border: 1px solid rgba(201, 169, 110, 0.2);
+        }
+        
+        .source-indicator {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Success message */
+        .success-message {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: var(--success-color);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Career roadmap */
+        .roadmap-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(201, 169, 110, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .roadmap-step {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .roadmap-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .roadmap-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .roadmap-details {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: 25px;
+        }
+
+        /* Motivational quote */
+        .motivational-quote {
+            background: rgba(201, 169, 110, 0.1);
+            border-left: 3px solid var(--accent-color);
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--accent-light);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 6px 12px;
+            }
+            
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .header-controls button span {
+                display: none;
+            }
+            
+            .header-controls button {
+                padding: 5px 8px;
+            }
+            
+            .chat-container {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .message {
+                max-width: 90%;
+                font-size: 0.8rem;
+            }
+            
+            .send-button {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .input-row {
+                flex-wrap: wrap;
+            }
+            
+            .chat-input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-messages {
+                padding: 12px;
+            }
+            
+            .message {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .chat-input-container {
+                padding: 10px;
+            }
+            
+            .chat-input input {
+                padding: 10px 14px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main header with logo and controls -->
+    <div class="main-header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1 class="logo-text"><span class="career-part">CareerPath</span> <span class="path-part">Pro</span></h1>
+        </div>
+        <div class="header-controls">
+            <button id="clear-chat-btn">
+                <i class="fas fa-broom"></i>
+                <span>Reset</span>
+            </button>
+            <button id="info-btn" title="About">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat container -->
+    <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    <p>Namaste! 🙏 Welcome to <strong>CareerPath Pro</strong> - Your Personalized Career Guidance Platform! 🚀</p>
+                    <p>I'm here to help you discover the perfect career path based on your interests, strengths, and aspirations. Let's begin your journey to success! 💫</p>
+                    <div class="suggestion-chips">
+                        <div class="suggestion-chip" data-question="Start Career Guidance">Start Career Guidance</div>
+                        <div class="suggestion-chip" data-question="Competition Information">Competition Information</div>
+                        <div class="suggestion-chip" data-question="Syllabus Details">Syllabus Details</div>
+                        <div class="suggestion-chip" data-question="Exam Information">Exam Information</div>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 0.8rem;">Let's build your successful future together! 🌟</p>
+                </div>
+                <div class="timestamp">Just now</div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="input-row">
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Type your response or select an option above...">
+                    <button class="send-button" id="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <p>Tip: Complete the career guidance process to get a personalized roadmap and connect with a mentor</p>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="modal" id="info-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> About CareerPath Pro</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="config-group">
+                <p>CareerPath Pro is an AI-powered career guidance platform designed to help students discover their ideal career paths based on their interests, strengths, and aspirations.</p>
+                
+                <div class="model-info">
+                    <p><strong>Our Features:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Personalized Career Assessment</li>
+                        <li>Class-wise Roadmap & Planning</li>
+                        <li>Competition & Exam Information</li>
+                        <li>Direct Mentor Connection</li>
+                        <li>Motivational Guidance</li>
+                        <li>Financial & Respect Aspects</li>
+                    </ul>
+                </div>
+                
+                <p style="margin-top: 15px;">Our mission is to empower students with clarity and direction for their future careers, helping them make informed decisions for a successful life.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-btn');
+            const clearChatBtn = document.getElementById('clear-chat-btn');
+            const infoBtn = document.getElementById('info-btn');
+            const infoModal = document.getElementById('info-modal');
+            const closeModalButtons = document.querySelectorAll('.close-modal');
+            
+            // Student data object
+            let studentData = {
+                name: '',
+                mobile: '',
+                class: '',
+                ambition: '',
+                subjects: []
+            };
+            
+            // Current step in the process
+            let currentStep = 0;
+            const steps = [
+                { question: "Let's start with your name. What's your full name?", field: 'name' },
+                { question: "Great! Now, please share your mobile number so we can connect you with a mentor if needed.", field: 'mobile' },
+                { question: "Which class are you currently studying in? (e.g., 8th, 9th, 10th, 11th, 12th)", field: 'class' },
+                { question: "What do you want to become in the future? (e.g., Engineer, Doctor, Scientist, Artist, etc.)", field: 'ambition' },
+                { question: "Which subjects are you most interested in? (e.g., Mathematics, Science, Arts, Commerce, etc.)", field: 'subjects' }
+            ];
+            
+            // Focus input on load
+            userInput.focus();
+            
+            // Manual focus when user clicks on input
+            userInput.addEventListener('click', function() {
+                userInput.focus();
+            });
+            
+            // Modal functionality
+            infoBtn.addEventListener('click', function() {
+                infoModal.style.display = 'flex';
+            });
+            
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    infoModal.style.display = 'none';
+                });
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === infoModal) {
+                    infoModal.style.display = 'none';
+                }
+            });
+            
+            // Add event listeners
+            sendButton.addEventListener('click', function() {
+                userInput.focus();
+                sendMessage();
+            });
+            
+            // Send message on Enter key
+            userInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Clear chat button
+            clearChatBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset the conversation?')) {
+                    chatMessages.innerHTML = '';
+                    currentStep = 0;
+                    studentData = {
+                        name: '',
+                        mobile: '',
+                        class: '',
+                        ambition: '',
+                        subjects: []
+                    };
+                    addMessage('Conversation reset. Ready to begin your career guidance journey! 🚀', 'bot');
+                    // Add suggestion chips again after clearing
+                    setTimeout(addSuggestionChips, 100);
+                }
+            });
+            
+            // Suggestion chip functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('suggestion-chip')) {
+                    const question = e.target.getAttribute('data-question');
+                    userInput.value = question;
+                    userInput.focus();
+                    sendMessage();
+                }
+            });
+            
+            // Function to add suggestion chips
+            function addSuggestionChips() {
+                const suggestionChips = document.createElement('div');
+                suggestionChips.classList.add('suggestion-chips');
+                
+                const questions = [
+                    "Start Career Guidance",
+                    "Competition Information",
+                    "Syllabus Details",
+                    "Exam Information"
+                ];
+                
+                questions.forEach(question => {
+                    const chip = document.createElement('div');
+                    chip.classList.add('suggestion-chip');
+                    chip.setAttribute('data-question', question);
+                    chip.textContent = question;
+                    suggestionChips.appendChild(chip);
+                });
+                
+                // Add to the last bot message
+                const lastMessage = chatMessages.lastElementChild;
+                if (lastMessage && lastMessage.classList.contains('bot-message')) {
+                    lastMessage.querySelector('.message-content').appendChild(suggestionChips);
+                }
+            }
+            
+            // Function to add action buttons
+            function addActionButtons(type) {
+                const actionButtons = document.createElement('div');
+                actionButtons.classList.add('action-buttons');
+                
+                let buttons = [];
+                
+                if (type === 'guidance') {
+                    buttons = [
+                        { text: "Talk to Mentor", icon: "fas fa-user-graduate", action: "mentor" },
+                        { text: "View Competition Details", icon: "fas fa-trophy", action: "competition" },
+                        { text: "Check Syllabus", icon: "fas fa-book", action: "syllabus" },
+                        { text: "Exam Information", icon: "fas fa-file-alt", action: "exam" }
+                    ];
+                } else if (type === 'general') {
+                    buttons = [
+                        { text: "Start Career Guidance", icon: "fas fa-rocket", action: "guidance" },
+                        { text: "Competition Information", icon: "fas fa-trophy", action: "competition" },
+                        { text: "Syllabus Details", icon: "fas fa-book", action: "syllabus" },
+                        { text: "Exam Information", icon: "fas fa-file-alt", action: "exam" }
+                    ];
+                }
+                
+                buttons.forEach(button => {
+                    const btn = document.createElement('button');
+                    btn.classList.add('action-button');
+                    btn.setAttribute('data-action', button.action);
+                    btn.innerHTML = `<i class="${button.icon}"></i> ${button.text}`;
+                    actionButtons.appendChild(btn);
+                    
+                    // Add click event
+                    btn.addEventListener('click', function() {
+                        handleAction(button.action);
+                    });
+                });
+                
+                // Add to the last bot message
+                const lastMessage = chatMessages.lastElementChild;
+                if (lastMessage && lastMessage.classList.contains('bot-message')) {
+                    lastMessage.querySelector('.message-content').appendChild(actionButtons);
+                }
+            }
+            
+            // Function to handle action buttons
+            function handleAction(action) {
+                switch(action) {
+                    case 'guidance':
+                        startCareerGuidance();
+                        break;
+                    case 'mentor':
+                        connectToMentor();
+                        break;
+                    case 'competition':
+                        showCompetitionInfo();
+                        break;
+                    case 'syllabus':
+                        showSyllabusInfo();
+                        break;
+                    case 'exam':
+                        showExamInfo();
+                        break;
+                }
+            }
+            
+            // Function to start career guidance
+            function startCareerGuidance() {
+                currentStep = 0;
+                studentData = {
+                    name: '',
+                    mobile: '',
+                    class: '',
+                    ambition: '',
+                    subjects: []
+                };
+                askNextQuestion();
+            }
+            
+            // Function to ask the next question in the process
+            function askNextQuestion() {
+                if (currentStep < steps.length) {
+                    addMessage(steps[currentStep].question, 'bot');
+                } else {
+                    // All questions answered, provide guidance
+                    provideCareerGuidance();
+                }
+            }
+            
+            // Function to provide career guidance based on collected data
+            function provideCareerGuidance() {
+                // Show typing indicator
+                showTypingIndicator();
+                
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    
+                    // Generate personalized guidance based on student data
+                    const guidance = generateCareerGuidance();
+                    
+                    // Add the guidance message
+                    addMessage(guidance, 'bot');
+                    
+                    // Add action buttons
+                    setTimeout(() => {
+                        addActionButtons('guidance');
+                    }, 100);
+                }, 1500);
+            }
+            
+            // Function to generate career guidance based on student data
+            function generateCareerGuidance() {
+                const { name, class: studentClass, ambition, subjects } = studentData;
+                
+                let guidance = `
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i> Thank you, ${name}! Based on your information, here's your personalized career guidance:
+                </div>
+                
+                <div class="motivational-quote">
+                    "The future belongs to those who believe in the beauty of their dreams." - Eleanor Roosevelt
+                </div>
+                
+                <h3>Your Career Path: ${ambition}</h3>
+                <p>Based on your interest in ${subjects.join(', ')}, here's a comprehensive roadmap for your class ${studentClass}:</p>
+                
+                <div class="roadmap-container">
+                    ${generateRoadmap(studentClass, ambition)}
+                </div>
+                
+                <p><strong>Financial Aspect:</strong> ${getFinancialInfo(ambition)}</p>
+                <p><strong>Respect & Recognition:</strong> ${getRespectInfo(ambition)}</p>
+                
+                <div class="motivational-quote">
+                    "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful." - Albert Schweitzer
+                </div>
+                
+                <p>Remember, this is just the beginning of your journey. With dedication and the right guidance, you can achieve great heights! 🌟</p>
+                `;
+                
+                return guidance;
+            }
+            
+            // Function to generate roadmap based on class and ambition
+            function generateRoadmap(studentClass, ambition) {
+                let roadmap = '';
+                
+                // Roadmap for different classes
+                if (studentClass === '8th' || studentClass === '9th') {
+                    roadmap = `
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-check-circle"></i> Current Year (Class ${studentClass})</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Focus on building strong fundamentals in Mathematics and Science</li>
+                                <li>Develop reading habit and improve language skills</li>
+                                <li>Participate in science fairs and extracurricular activities</li>
+                                <li>Explore different career options through online resources</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-arrow-right"></i> Next Year (Class ${parseInt(studentClass)+1})</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Start preparing for competitive exams like NTSE, Olympiads</li>
+                                <li>Join a coaching institute if aiming for engineering/medical</li>
+                                <li>Develop problem-solving skills through practice</li>
+                                <li>Begin exploring specific fields within ${ambition}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-graduation-cap"></i> Class 10th Preparation</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Focus on board exam preparation</li>
+                                <li>Start serious preparation for competitive exams</li>
+                                <li>Research different streams (Science, Commerce, Arts)</li>
+                                <li>Attend career counseling sessions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    `;
+                } else if (studentClass === '10th') {
+                    roadmap = `
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-check-circle"></i> Current Year (Class 10th)</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Focus on scoring well in board exams</li>
+                                <li>Prepare for competitive exams like NTSE, Olympiads</li>
+                                <li>Research and decide on stream selection (Science/Commerce/Arts)</li>
+                                <li>Attend career guidance workshops</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-arrow-right"></i> After 10th - Stream Selection</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Choose the right stream based on your career goal: ${ambition}</li>
+                                <li>Science stream for engineering, medical, pure sciences</li>
+                                <li>Commerce stream for CA, business, finance</li>
+                                <li>Arts stream for humanities, civil services, literature</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-graduation-cap"></i> Class 11th & 12th Preparation</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Focus on building strong conceptual knowledge</li>
+                                <li>Start serious preparation for JEE/NEET/other entrance exams</li>
+                                <li>Participate in relevant extracurricular activities</li>
+                                <li>Research colleges and courses for ${ambition}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    `;
+                } else if (studentClass === '11th' || studentClass === '12th') {
+                    roadmap = `
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-check-circle"></i> Current Year (Class ${studentClass})</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Intensive preparation for board exams</li>
+                                <li>Focused preparation for ${getRelevantExams(ambition)}</li>
+                                <li>Regular practice with mock tests and previous year papers</li>
+                                <li>Time management and stress management techniques</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-arrow-right"></i> After 12th - College Admission</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Appear for relevant entrance exams</li>
+                                <li>Research and apply to colleges offering courses for ${ambition}</li>
+                                <li>Prepare for college interviews and counseling</li>
+                                <li>Explore scholarship opportunities</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-graduation-cap"></i> College Years & Beyond</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li>Focus on academic excellence and skill development</li>
+                                <li>Participate in internships and projects</li>
+                                <li>Build professional network</li>
+                                <li>Prepare for higher studies or job placements</li>
+                            </ul>
+                        </div>
+                    </div>
+                    `;
+                }
+                
+                return roadmap;
+            }
+            
+            // Function to get relevant exams based on ambition
+            function getRelevantExams(ambition) {
+                const examMap = {
+                    'engineer': 'JEE Main, JEE Advanced, BITSAT, VITEEE',
+                    'doctor': 'NEET, AIIMS, JIPMER',
+                    'scientist': 'IISER, NISER, JEE for engineering streams',
+                    'artist': 'NIFT, NID, CEED',
+                    'ca': 'CA Foundation, CPT',
+                    'ias': 'UPSC Civil Services',
+                    'programmer': 'JEE for engineering colleges'
+                };
+                
+                for (const [key, exams] of Object.entries(examMap)) {
+                    if (ambition.toLowerCase().includes(key)) {
+                        return exams;
+                    }
+                }
+                
+                return 'relevant entrance exams';
+            }
+            
+            // Function to get financial information
+            function getFinancialInfo(ambition) {
+                const financialMap = {
+                    'engineer': 'Starting salary: ₹4-10 LPA, with experience can reach ₹20-50 LPA or more in top companies',
+                    'doctor': 'Starting salary: ₹6-12 LPA, experienced doctors can earn ₹15-40 LPA, specialists can earn even more',
+                    'scientist': 'Starting salary: ₹5-9 LPA, research scientists can earn ₹10-25 LPA, senior scientists much higher',
+                    'artist': 'Varies widely based on talent and opportunities, successful artists can earn well through commissions and exhibitions',
+                    'ca': 'Starting salary: ₹6-12 LPA, experienced CAs can earn ₹15-40 LPA or more',
+                    'ias': 'Starting salary: ₹56,100 plus allowances, with promotions can reach ₹2.5 Lakh per month',
+                    'programmer': 'Starting salary: ₹4-10 LPA, with experience can reach ₹20-50 LPA or more in top tech companies'
+                };
+                
+                for (const [key, info] of Object.entries(financialMap)) {
+                    if (ambition.toLowerCase().includes(key)) {
+                        return info;
+                    }
+                }
+                
+                'Varies based on the specific field, qualifications, and experience. Focus on gaining the right skills and the financial rewards will follow.';
+            }
+            
+            // Function to get respect information
+            function getRespectInfo(ambition) {
+                const respectMap = {
+                    'engineer': 'Highly respected profession with opportunities to work on innovative projects that shape the future',
+                    'doctor': 'One of the most respected professions globally, with the noble opportunity to save lives and serve society',
+                    'scientist': 'Highly esteemed for contributions to knowledge and technological advancement, Nobel Prize is the ultimate recognition',
+                    'artist': 'Respected for creativity and cultural contributions, with opportunities for national and international recognition',
+                    'ca': 'Highly respected financial experts with crucial roles in business and economy',
+                    'ias': 'One of the most prestigious positions in India, with significant authority and responsibility in governance',
+                    'programmer': 'Highly valued in the digital age, with opportunities to create technologies that impact millions of lives'
+                };
+                
+                for (const [key, info] of Object.entries(respectMap)) {
+                    if (ambition.toLowerCase().includes(key)) {
+                        return info;
+                    }
+                }
+                
+                'Every profession has its own respect and dignity when pursued with passion, integrity, and excellence. Focus on becoming the best in your chosen field.';
+            }
+            
+            // Function to connect to mentor
+            function connectToMentor() {
+                const { name, mobile, class: studentClass, ambition } = studentData;
+                
+                if (!name || !mobile) {
+                    addMessage('Please complete the career guidance process first to connect with a mentor.', 'bot');
+                    return;
+                }
+                
+                // Create WhatsApp message
+                const message = `Hello, I'm ${name}, a Class ${studentClass} student. I want to become a ${ambition}. I need career guidance. Please connect me with a mentor.`;
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappURL = `https://wa.me/919554991042?text=${encodedMessage}`;
+                
+                // Open WhatsApp in new tab
+                window.open(whatsappURL, '_blank');
+                
+                addMessage(`I've opened WhatsApp with a pre-filled message for mentor ${name}. Please send it to connect with our career experts! 📞`, 'bot');
+            }
+            
+            // Function to show competition information
+            function showCompetitionInfo() {
+                const competitions = `
+                <h3>Important Competitions for Students</h3>
+                
+                <div class="roadmap-container">
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-trophy"></i> Science & Mathematics</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>NTSE (National Talent Search Examination):</strong> For class 10th students, provides scholarship</li>
+                                <li><strong>Science Olympiads:</strong> International level competitions in Physics, Chemistry, Biology, Astronomy</li>
+                                <li><strong>Math Olympiads:</strong> Prestigious mathematics competitions at national and international levels</li>
+                                <li><strong>KVPY (Kishore Vaigyanik Protsahan Yojana):</strong> For students interested in research careers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-trophy"></i> General Knowledge & Current Affairs</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>Quiz Competitions:</strong> Various school, state and national level quizzes</li>
+                                <li><strong>Debates:</strong> Help in developing communication and critical thinking skills</li>
+                                <li><strong>Essay Writing:</strong> Improve writing skills and knowledge on various topics</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-trophy"></i> Sports & Extracurricular</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>Sports:</strong> School, district, state and national level competitions</li>
+                                <li><strong>Art & Craft:</strong> Various competitions to showcase creative talents</li>
+                                <li><strong>Music & Dance:</strong> Opportunities to showcase performing arts talents</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>Participating in competitions helps in holistic development and adds value to your profile for future opportunities.</p>
+                `;
+                
+                addMessage(competitions, 'bot');
+                setTimeout(() => {
+                    addActionButtons('general');
+                }, 100);
+            }
+            
+            // Function to show syllabus information
+            function showSyllabusInfo() {
+                const syllabus = `
+                <h3>Class-wise Syllabus Information</h3>
+                
+                <div class="roadmap-container">
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-book"></i> Class 8th-10th (CBSE)</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>Mathematics:</strong> Number Systems, Algebra, Geometry, Mensuration, Statistics</li>
+                                <li><strong>Science:</strong> Physics, Chemistry, Biology with practicals</li>
+                                <li><strong>Social Science:</strong> History, Geography, Political Science, Economics</li>
+                                <li><strong>Languages:</strong> English, Hindi/Other Regional Language</li>
+                                <li><strong>Additional:</strong> Computer Science, Artificial Intelligence (in some schools)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-book"></i> Class 11th-12th Science Stream</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>Physics, Chemistry, Mathematics/Biology:</strong> Core subjects with practicals</li>
+                                <li><strong>Computer Science/Physical Education/Other Electives</strong></li>
+                                <li><strong>Languages:</strong> English and optional language</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-book"></i> Class 11th-12th Commerce Stream</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>Accountancy, Business Studies, Economics:</strong> Core subjects</li>
+                                <li><strong>Mathematics/Informatics Practices/Other Electives</strong></li>
+                                <li><strong>Languages:</strong> English and optional language</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-book"></i> Class 11th-12th Arts/Humanities Stream</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>History, Political Science, Geography, Psychology, Sociology:</strong> Various combinations</li>
+                                <li><strong>Economics, Fine Arts, Home Science, Other Electives</strong></li>
+                                <li><strong>Languages:</strong> English and optional language</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>Note: Syllabus may vary slightly between different education boards (CBSE, ICSE, State Boards).</p>
+                `;
+                
+                addMessage(syllabus, 'bot');
+                setTimeout(() => {
+                    addActionButtons('general');
+                }, 100);
+            }
+            
+            // Function to show exam information
+            function showExamInfo() {
+                const exams = `
+                <h3>Important Exams for Career Paths</h3>
+                
+                <div class="roadmap-container">
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-file-alt"></i> Engineering</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>JEE Main:</strong> For NITs, IIITs, other engineering colleges</li>
+                                <li><strong>JEE Advanced:</strong> For IITs</li>
+                                <li><strong>BITSAT:</strong> For BITS Pilani</li>
+                                <li><strong>State Engineering Entrance Exams:</strong> For state government colleges</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-file-alt"></i> Medical</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>NEET:</strong> For MBBS, BDS courses</li>
+                                <li><strong>AIIMS:</strong> For AIIMS institutions (now through NEET)</li>
+                                <li><strong>JIPMER:</strong> For JIPMER (now through NEET)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-file-alt"></i> Defense Services</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>NDA:</strong> After 12th for Army, Navy, Air Force</li>
+                                <li><strong>CDS:</strong> After graduation for Army, Navy, Air Force</li>
+                                <li><strong>AFCAT:</strong> For Flying and Ground Duty branches</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-file-alt"></i> Civil Services</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>UPSC Civil Services:</strong> For IAS, IPS, IFS and other central services</li>
+                                <li><strong>State PSC Exams:</strong> For state administrative services</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-step">
+                        <div class="roadmap-title"><i class="fas fa-file-alt"></i> Other Professional Courses</div>
+                        <div class="roadmap-details">
+                            <ul>
+                                <li><strong>CLAT:</strong> For law courses</li>
+                                <li><strong>NIFT/NID:</strong> For design courses</li>
+                                <li><strong>CA Foundation:</strong> For Chartered Accountancy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>Start preparing early for these exams with proper guidance and consistent practice.</p>
+                `;
+                
+                addMessage(exams, 'bot');
+                setTimeout(() => {
+                    addActionButtons('general');
+                }, 100);
+            }
+            
+            // Function to send a message
+            function sendMessage() {
+                const message = userInput.value.trim();
+                
+                if (message === '') return;
+                
+                // Add user message to chat
+                addMessage(message, 'user');
+                
+                // Clear input and disable send button
+                userInput.value = '';
+                sendButton.disabled = true;
+                
+                // Process the message based on current step
+                if (currentStep < steps.length) {
+                    // Store the answer
+                    const currentField = steps[currentStep].field;
+                    
+                    if (currentField === 'subjects') {
+                        studentData[currentField] = message.split(',').map(s => s.trim());
+                    } else {
+                        studentData[currentField] = message;
+                    }
+                    
+                    currentStep++;
+                    
+                    // Ask next question after a short delay
+                    setTimeout(() => {
+                        askNextQuestion();
+                        sendButton.disabled = false;
+                    }, 1000);
+                } else {
+                    // Handle other messages
+                    sendButton.disabled = false;
+                    
+                    // Show typing indicator
+                    showTypingIndicator();
+                    
+                    setTimeout(() => {
+                        removeTypingIndicator();
+                        
+                        if (message.toLowerCase().includes('start') || message.toLowerCase().includes('guidance')) {
+                            startCareerGuidance();
+                        } else if (message.toLowerCase().includes('competition')) {
+                            showCompetitionInfo();
+                        } else if (message.toLowerCase().includes('syllabus')) {
+                            showSyllabusInfo();
+                        } else if (message.toLowerCase().includes('exam')) {
+                            showExamInfo();
+                        } else {
+                            addMessage("I'm here to help with your career guidance. You can start the process by clicking 'Start Career Guidance' or ask about competitions, syllabus, or exams. How can I assist you today? 💼", 'bot');
+                            setTimeout(() => {
+                                addActionButtons('general');
+                            }, 100);
+                        }
+                    }, 1000);
+                }
+            }
+            
+            // Function to add a message to the chat
+            function addMessage(text, sender) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.classList.add(sender + '-message');
+                
+                const messageContent = document.createElement('div');
+                messageContent.classList.add('message-content');
+                
+                // Handle text if present
+                if (text && text.trim() !== '') {
+                    // Check if text contains HTML tags
+                    if (/<[a-z][\s\S]*>/i.test(text)) {
+                        messageContent.innerHTML = text;
+                    } else {
+                        const lines = text.split('\n');
+                        lines.forEach((line, index) => {
+                            if (line.trim() !== '') {
+                                const messageText = document.createElement('p');
+                                messageText.innerHTML = line;
+                                messageContent.appendChild(messageText);
+                            }
+                        });
+                    }
+                }
+                
+                const timestamp = document.createElement('div');
+                timestamp.classList.add('timestamp');
+                timestamp.textContent = getCurrentTime();
+                
+                messageElement.appendChild(messageContent);
+                messageElement.appendChild(timestamp);
+                
+                chatMessages.appendChild(messageElement);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Function to show typing indicator
+            function showTypingIndicator() {
+                const typingElement = document.createElement('div');
+                typingElement.classList.add('typing-indicator');
+                typingElement.id = 'typing-indicator';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('typing-dot');
+                    typingElement.appendChild(dot);
+                }
+                
+                chatMessages.appendChild(typingElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Function to remove typing indicator
+            function removeTypingIndicator() {
+                const typingElement = document.getElementById('typing-indicator');
+                if (typingElement) {
+                    typingElement.remove();
+                }
+            }
+            
+            // Function to get current time in HH:MM format
+            function getCurrentTime() {
+                const now = new Date();
+                return now.getHours().toString().padStart(2, '0') + ':' + 
+                       now.getMinutes().toString().padStart(2, '0');
+            }
+        });
+    </script>
+</body>
+</html>
