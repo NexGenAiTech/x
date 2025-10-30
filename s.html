@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Loader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0f0f0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .loader-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        /* Main Orb Loader */
+        .orb-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .orb {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #00fff0, transparent 50%),
+                        radial-gradient(circle at 70% 70%, #ff005a, transparent 50%);
+            border-radius: 50%;
+            position: relative;
+            animation: morph 3s ease-in-out infinite;
+            filter: blur(1px);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 240, 0.4),
+                0 0 40px rgba(255, 0, 90, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .orb::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: conic-gradient(from 0deg, #00fff0, #ff005a, #00fff0);
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotate 2s linear infinite;
+            filter: blur(12px);
+            opacity: 0.7;
+        }
+
+        /* Ring Loader */
+        .ring-loader {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top: 2px solid #00fff0;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .ring:nth-child(2) {
+            border-top: 2px solid #ff005a;
+            animation-delay: -0.5s;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+        }
+
+        .ring:nth-child(3) {
+            border-top: 2px solid #00fff0;
+            animation-delay: -1s;
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+        }
+
+        /* Dot Matrix */
+        .dot-matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #00fff0;
+            border-radius: 50%;
+            animation: pulse 1.4s ease-in-out infinite both;
+            box-shadow: 0 0 10px rgba(0, 255, 240, 0.6);
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; background: #ff005a; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        .dot:nth-child(4) { animation-delay: 0.6s; background: #ff005a; }
+        .dot:nth-child(5) { animation-delay: 0.8s; }
+        .dot:nth-child(6) { animation-delay: 1s; background: #ff005a; }
+        .dot:nth-child(7) { animation-delay: 1.2s; }
+        .dot:nth-child(8) { animation-delay: 1.4s; background: #ff005a; }
+        .dot:nth-child(9) { animation-delay: 1.6s; }
+
+        /* Loading Text */
+        .loading-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        /* Animations */
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 50% 30% 70% 50%;
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                border-radius: 60% 40% 30% 70%;
+                transform: scale(1.1) rotate(90deg);
+            }
+            50% {
+                border-radius: 30% 60% 70% 40%;
+                transform: scale(1.05) rotate(180deg);
+            }
+            75% {
+                border-radius: 40% 70% 50% 60%;
+                transform: scale(1.1) rotate(270deg);
+            }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .orb-loader, .ring-loader {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="orb-loader">
+            <div class="orb"></div>
+        </div>
+        
+        <div class="ring-loader">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+        
+        <div class="dot-matrix">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        
+        <div class="loading-text">Loading</div>
+    </div>
+</body>
+</html>
