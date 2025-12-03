@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE Mains 2025 Study Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --warning: #ff9e00;
+            --danger: #f72585;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+            color: var(--primary-dark);
+        }
+
+        .card-title i {
+            margin-right: 12px;
+            font-size: 1.3rem;
+        }
+
+        .time-selector {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .time-input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .current-time-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .current-time-btn:hover {
+            background: linear-gradient(to right, var(--primary-dark), #5a08a3);
+            transform: translateY(-3px);
+        }
+
+        .current-task-card {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .current-task-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .current-task-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .current-task {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .current-task-time {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            margin-top: 25px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent), #ff9e00);
+            border-radius: 6px;
+            width: 65%;
+            transition: width 1s ease;
+        }
+
+        .goals-container {
+            margin-top: 20px;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            padding: 18px;
+            background: var(--light);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .goal-item:hover {
+            background: #f0f2ff;
+        }
+
+        .goal-item.completed {
+            opacity: 0.7;
+            border-left-color: var(--success);
+        }
+
+        .goal-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--gray);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .goal-item.completed .goal-check {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .goal-content {
+            flex: 1;
+        }
+
+        .goal-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .goal-time {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .timetable-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            min-width: 1000px;
+        }
+
+        thead {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            position: relative;
+        }
+
+        th:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+
+        tbody tr:hover {
+            background: #f8f9ff;
+        }
+
+        tbody tr.current-day {
+            background: rgba(67, 97, 238, 0.08);
+            border-left: 4px solid var(--primary);
+        }
+
+        td {
+            padding: 16px 15px;
+        }
+
+        .date-cell {
+            font-weight: 600;
+            color: var(--primary-dark);
+            min-width: 120px;
+        }
+
+        .task-cell {
+            min-width: 200px;
+        }
+
+        .task-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .tag-test {
+            background: rgba(244, 143, 177, 0.2);
+            color: #d63384;
+        }
+
+        .tag-practice {
+            background: rgba(113, 201, 240, 0.2);
+            color: #0d6efd;
+        }
+
+        .tag-revision {
+            background: rgba(255, 193, 7, 0.2);
+            color: #fd7e14;
+        }
+
+        .tag-live {
+            background: rgba(111, 66, 193, 0.2);
+            color: #6f42c1;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: var(--light-gray);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gray);
+            margin-top: 8px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(255, 230, 0, 0.2) 0%, rgba(255, 230, 0, 0) 100%);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-selector {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .current-task {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> JEE Mains 2025 Study Planner</h1>
+            <p class="subtitle">Track your daily tasks, monitor progress, and achieve your goals</p>
+            <div class="date-badge">
+                <i class="far fa-calendar"></i> Dec 6 - Dec 30, 2025
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <h2 class="card-title"><i class="far fa-clock"></i> Select Date & Time</h2>
+                <div class="time-selector">
+                    <div class="time-input-group">
+                        <label for="date-select"><i class="far fa-calendar"></i> Select Date</label>
+                        <input type="date" id="date-select" min="2025-12-06" max="2025-12-30" value="2025-12-06">
+                    </div>
+                    <div class="time-input-group">
+                        <label for="time-select"><i class="far fa-clock"></i> Select Time</label>
+                        <input type="time" id="time-select" value="09:00">
+                    </div>
+                </div>
+                <button class="current-time-btn" id="current-time-btn">
+                    <i class="fas fa-sync-alt"></i> Use Current Time
+                </button>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="days-count">25</div>
+                        <div class="stat-label">Study Days</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="tasks-count">150</div>
+                        <div class="stat-label">Total Tasks</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="completed-count">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-bullseye"></i> Today's Goals</h2>
+                <div class="goals-container" id="goals-container">
+                    <!-- Goals will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="current-task-card">
+            <div class="current-task-title">CURRENT TASK</div>
+            <div class="current-task" id="current-task">PCM Revision</div>
+            <div class="current-task-time">
+                <i class="far fa-clock"></i>
+                <span id="current-time-range">06:00 AM - 09:00 AM</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Daily Progress</span>
+                    <span id="progress-percent">65%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-table"></i> Complete Timetable (Dec 6 - Dec 30, 2025)</h2>
+            <div class="timetable-container">
+                <table id="timetable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>06:00 AM - 09:00 AM</th>
+                            <th>09:00 AM - 12:00 PM</th>
+                            <th>12:00 PM - 01:00 PM</th>
+                            <th>01:00 PM - 04:00 PM</th>
+                            <th>04:00 PM - 07:00 PM</th>
+                            <th>07:00 PM - 12:00 AM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-body">
+                        <!-- Timetable rows will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <p>JEE Mains 2025 Study Planner • Designed for efficient exam preparation</p>
+            <p>All times are in 24-hour format. Click on any task to mark as completed.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Timetable data from the PDF
+        const timetableData = [
+            {date: "6 Dec 2025", test: "27 Jan 2024 S1", practice1: "WPE & Gravity", practice2: "Line & Circle"},
+            {date: "7 Dec 2025", test: "27 Jan 2024 S2", practice1: "CoM & Rotation", practice2: "Conic sections 01"},
+            {date: "8 Dec 2025", test: "29 Jan 2024 S1", practice1: "Solids & Fluids", practice2: "Conic sections 02"},
+            {date: "9 Dec 2025", test: "29 Jan 2024 S2", practice1: "Heats & Thermodyn", practice2: "RuF & ITF"},
+            {date: "10 Dec 2025", test: "30 Jan 2024 S1", practice1: "SHM & Waves", practice2: "LCD"},
+            {date: "11 Dec 2025", test: "30 Jan 2024 S2", practice1: "Electrost & Potential", practice2: "MoD & AoD"},
+            {date: "12 Dec 2025", test: "31 Jan 2024 S1", practice1: "Capacitor & Current", practice2: "Integrations"},
+            {date: "13 Dec 2025", test: "31 Jan 2024 S2", practice1: "Magnetism & EMI", practice2: "AuC & Def Eqn"},
+            {date: "14 Dec 2025", test: "01 Feb 2024 S1", practice1: "AC & EMW", practice2: "Bino & PuC"},
+            {date: "15 Dec 2025", test: "01 Feb 2024 S2", practice1: "Ray & Wave Optics", practice2: "Probability & Statist"},
+            {date: "16 Dec 2025", test: "22 Jan 2025 S1", practice1: "04 Apr 2024 S1", practice2: "Vector & 3D"},
+            {date: "17 Dec 2025", test: "22 Jan 2025 S2", practice1: "04 Apr 2024 S2", practice2: "Seq & Series"},
+            {date: "18 Dec 2025", test: "23 Jan 2025 S1", practice1: "05 Apr 2024 S1", practice2: "Manzil Class DPPs"},
+            {date: "19 Dec 2025", test: "23 Jan 2025 S2", practice1: "05 Apr 2024 S2", practice2: "Manzil Class DPPs"},
+            {date: "20 Dec 2025", test: "24 Jan 2025 S1", practice1: "06 Apr 2024 S1", practice2: "Manzil Class DPPs"},
+            {date: "21 Dec 2025", test: "24 Jan 2025 S2", practice1: "06 Apr 2024 S2", practice2: "Manzil Class DPPs"},
+            {date: "22 Dec 2025", test: "28 Jan 2025 S1", practice1: "08 Apr 2024 S1", practice2: "Manzil Class DPPs"},
+            {date: "23 Dec 2025", test: "28 Jan 2025 S2", practice1: "08 Apr 2024 S2", practice2: "Manzil Class DPPs"},
+            {date: "24 Dec 2025", test: "29 Jan 2025 S1", practice1: "09 Apr 2024 S1", practice2: "Manzil Class DPPs"},
+            {date: "25 Dec 2025", test: "29 Jan 2025 S2", practice1: "09 Apr 2024 S2", practice2: "Manzil Class DPPs"},
+            {date: "26 Dec 2025", test: "02 Apr 2025 S1", practice1: "02 Apr 2025 S2", practice2: "Manzil Class DPPs"},
+            {date: "27 Dec 2025", test: "3 Apr 2025 S1", practice1: "3 Apr 2025 S2", practice2: "Manzil Class DPPs"},
+            {date: "28 Dec 2025", test: "4 Apr 2025 S1", practice1: "4 Apr 2025 S2", practice2: "Manzil Class DPPs"},
+            {date: "29 Dec 2025", test: "7 Apr 2025 S1", practice1: "7 Apr 2025 S2", practice2: "Manzil Class DPPs"},
+            {date: "30 Dec 2025", test: "8 Apr 2025 S1", practice1: "Completed", practice2: "Manzil Class DPPs"}
+        ];
+
+        // Convert date string to Date object
+        function parseDate(dateStr) {
+            const parts = dateStr.split(' ');
+            const months = {
+                'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+                'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+            };
+            return new Date(parts[2], months[parts[1]], parts[0]);
+        }
+
+        // Format time to 12-hour format
+        function formatTime(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+        }
+
+        // Get current task based on selected date and time
+        function getCurrentTask(selectedDate, selectedTime) {
+            const timeSlots = [
+                {start: "06:00", end: "09:00", type: "revision", task: "PCM Revision"},
+                {start: "09:00", end: "12:00", type: "test", task: "JEE Mains Test"},
+                {start: "12:00", end: "13:00", type: "analysis", task: "Test Analysis"},
+                {start: "13:00", end: "16:00", type: "practice", task: "30 PyQ Practice"},
+                {start: "16:00", end: "19:00", type: "practice", task: "30 PyQ Practice"},
+                {start: "19:00", end: "23:59", type: "live", task: "Manzil Live"}
+            ];
+
+            for (const slot of timeSlots) {
+                if (selectedTime >= slot.start && selectedTime < slot.end) {
+                    const dateObj = parseDate(selectedDate);
+                    const dayIndex = Math.floor((dateObj - parseDate("6 Dec 2025")) / (1000 * 60 * 60 * 24));
+                    
+                    if (dayIndex >= 0 && dayIndex < timetableData.length) {
+                        const dayData = timetableData[dayIndex];
+                        
+                        if (slot.type === "test") {
+                            return {
+                                task: `JEE Mains Test: ${dayData.test}`,
+                                timeRange: `${formatTime(slot.start)} - ${formatTime(slot.end)}`,
+                                type: "test"
+                            };
+                        } else if (slot.type === "practice" && slot.start === "13:00") {
+                            return {
+                                task: `30 PyQ Practice: ${dayData.practice1}`,
+                                timeRange: `${formatTime(slot.start)} - ${formatTime(slot.end)}`,
+                                type: "practice"
+                            };
+                        } else if (slot.type === "practice" && slot.start === "16:00") {
+                            return {
+                                task: `30 PyQ Practice: ${dayData.practice2}`,
+                                timeRange: `${formatTime(slot.start)} - ${formatTime(slot.end)}`,
+                                type: "practice"
+                            };
+                        }
+                    }
+                    
+                    return {
+                        task: slot.task,
+                        timeRange: `${formatTime(slot.start)} - ${formatTime(slot.end)}`,
+                        type: slot.type
+                    };
+                }
+            }
+            
+            return {
+                task: "No scheduled task",
+                timeRange: "Free Time",
+                type: "free"
+            };
+        }
+
+        // Generate goals for selected date
+        function generateGoals(selectedDate) {
+            const dateObj = parseDate(selectedDate);
+            const dayIndex = Math.floor((dateObj - parseDate("6 Dec 2025")) / (1000 * 60 * 60 * 24));
+            
+            if (dayIndex >= 0 && dayIndex < timetableData.length) {
+                const dayData = timetableData[dayIndex];
+                return [
+                    {time: "06:00 - 09:00", task: "PCM Revision", completed: false, type: "revision"},
+                    {time: "09:00 - 12:00", task: `JEE Mains Test: ${dayData.test}`, completed: false, type: "test"},
+                    {time: "12:00 - 13:00", task: "Test Analysis", completed: false, type: "analysis"},
+                    {time: "13:00 - 16:00", task: `30 PyQ Practice: ${dayData.practice1}`, completed: false, type: "practice"},
+                    {time: "16:00 - 19:00", task: `30 PyQ Practice: ${dayData.practice2}`, completed: false, type: "practice"},
+                    {time: "19:00 - 00:00", task: "Manzil Live", completed: false, type: "live"}
+                ];
+            }
+            
+            return [];
+        }
+
+        // Update the UI with current task
+        function updateCurrentTask() {
+            const dateSelect = document.getElementById('date-select');
+            const timeSelect = document.getElementById('time-select');
+            
+            // Convert date from YYYY-MM-DD to "6 Dec 2025" format
+            const dateParts = dateSelect.value.split('-');
+            const dateStr = `${parseInt(dateParts[2])} ${getMonthName(dateParts[1])} ${dateParts[0]}`;
+            
+            const currentTask = getCurrentTask(dateStr, timeSelect.value);
+            
+            document.getElementById('current-task').textContent = currentTask.task;
+            document.getElementById('current-time-range').textContent = currentTask.timeRange;
+            
+            // Update progress based on time of day
+            const [hours] = timeSelect.value.split(':').map(Number);
+            let progress = 0;
+            
+            if (hours < 6) progress = 0;
+            else if (hours < 9) progress = 15;
+            else if (hours < 12) progress = 30;
+            else if (hours < 13) progress = 45;
+            else if (hours < 16) progress = 60;
+            else if (hours < 19) progress = 75;
+            else if (hours < 24) progress = 90;
+            
+            document.getElementById('progress-percent').textContent = `${progress}%`;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+            
+            // Highlight current day in timetable
+            highlightCurrentDay(dateStr);
+            
+            // Update goals
+            updateGoals(dateStr);
+        }
+
+        // Get month name from number
+        function getMonthName(monthNum) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return months[parseInt(monthNum) - 1];
+        }
+
+        // Update goals list
+        function updateGoals(selectedDate) {
+            const goalsContainer = document.getElementById('goals-container');
+            const goals = generateGoals(selectedDate);
+            
+            goalsContainer.innerHTML = '';
+            
+            goals.forEach(goal => {
+                const goalElement = document.createElement('div');
+                goalElement.className = `goal-item ${goal.completed ? 'completed' : ''}`;
+                goalElement.innerHTML = `
+                    <div class="goal-check">
+                        ${goal.completed ? '<i class="fas fa-check"></i>' : ''}
+                    </div>
+                    <div class="goal-content">
+                        <div class="goal-title">${goal.task}</div>
+                        <div class="goal-time">${formatTime(goal.time.split(' - ')[0])} - ${formatTime(goal.time.split(' - ')[1])}</div>
+                    </div>
+                `;
+                
+                // Mark as completed on click
+                goalElement.addEventListener('click', function() {
+                    goal.completed = !goal.completed;
+                    goalElement.classList.toggle('completed');
+                    goalElement.querySelector('.goal-check').innerHTML = goal.completed ? '<i class="fas fa-check"></i>' : '';
+                    
+                    // Update completed count
+                    updateCompletedCount();
+                });
+                
+                goalsContainer.appendChild(goalElement);
+            });
+            
+            updateCompletedCount();
+        }
+
+        // Update completed tasks count
+        function updateCompletedCount() {
+            const completedGoals = document.querySelectorAll('.goal-item.completed').length;
+            document.getElementById('completed-count').textContent = completedGoals;
+        }
+
+        // Highlight current day in timetable
+        function highlightCurrentDay(selectedDate) {
+            const rows = document.querySelectorAll('#timetable-body tr');
+            rows.forEach(row => {
+                row.classList.remove('current-day');
+                if (row.dataset.date === selectedDate) {
+                    row.classList.add('current-day');
+                }
+            });
+        }
+
+        // Populate timetable
+        function populateTimetable() {
+            const tbody = document.getElementById('timetable-body');
+            tbody.innerHTML = '';
+            
+            timetableData.forEach(dayData => {
+                const row = document.createElement('tr');
+                row.dataset.date = dayData.date;
+                
+                row.innerHTML = `
+                    <td class="date-cell">${dayData.date}</td>
+                    <td class="task-cell">
+                        <div>PCM Revision</div>
+                        <span class="task-tag tag-revision">Revision</span>
+                        <div class="time-badge">06:00 - 09:00</div>
+                    </td>
+                    <td class="task-cell">
+                        <div>${dayData.test}</div>
+                        <span class="task-tag tag-test">JEE Mains Test</span>
+                        <div class="time-badge">09:00 - 12:00</div>
+                    </td>
+                    <td class="task-cell">
+                        <div>Test Analysis</div>
+                        <span class="task-tag tag-analysis">Analysis</span>
+                        <div class="time-badge">12:00 - 13:00</div>
+                    </td>
+                    <td class="task-cell">
+                        <div>${dayData.practice1}</div>
+                        <span class="task-tag tag-practice">30 PyQ Practice</span>
+                        <div class="time-badge">13:00 - 16:00</div>
+                    </td>
+                    <td class="task-cell">
+                        <div>${dayData.practice2}</div>
+                        <span class="task-tag tag-practice">30 PyQ Practice</span>
+                        <div class="time-badge">16:00 - 19:00</div>
+                    </td>
+                    <td class="task-cell">
+                        <div>Manzil Live</div>
+                        <span class="task-tag tag-live">Live Class</span>
+                        <div class="time-badge">19:00 - 00:00</div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Update stats
+            document.getElementById('tasks-count').textContent = timetableData.length * 6;
+        }
+
+        // Set current date and time
+        function setCurrentDateTime() {
+            const now = new Date();
+            const currentDate = now.toISOString().split('T')[0];
+            
+            // Check if current date is within the timetable range
+            const minDate = new Date('2025-12-06');
+            const maxDate = new Date('2025-12-30');
+            
+            if (now >= minDate && now <= maxDate) {
+                document.getElementById('date-select').value = currentDate;
+            }
+            
+            // Format time as HH:MM
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('time-select').value = `${hours}:${minutes}`;
+            
+            updateCurrentTask();
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate timetable
+            populateTimetable();
+            
+            // Set initial values
+            setCurrentDateTime();
+            
+            // Update when date or time changes
+            document.getElementById('date-select').addEventListener('change', updateCurrentTask);
+            document.getElementById('time-select').addEventListener('change', updateCurrentTask);
+            
+            // Update when current time button is clicked
+            document.getElementById('current-time-btn').addEventListener('click', setCurrentDateTime);
+            
+            // Auto-update time every minute
+            setInterval(() => {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                
+                // Only update if the time display is showing current time
+                const timeSelect = document.getElementById('time-select');
+                const dateSelect = document.getElementById('date-select');
+                const currentDate = now.toISOString().split('T')[0];
+                
+                if (dateSelect.value === currentDate) {
+                    timeSelect.value = `${hours}:${minutes}`;
+                    updateCurrentTask();
+                }
+            }, 60000);
+        });
+    </script>
+</body>
+</html>
