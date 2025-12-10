@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Online Shopping Site in India - Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in Clone</title>
+    <style>
+        /* --- 1. PREMIUM AMAZON STYLES & FONTS --- */
+        :root {
+            --amz-dark-blue: #131921;
+            --amz-light-blue: #232f3e;
+            --amz-yellow: #febd69;
+            --amz-orange: #fa8900;
+            --amz-link-blue: #007185;
+            --amz-price-red: #B12704;
+            --bg-gray: #EAEDED;
+            --text-black: #0F1111;
+        }
+
+        body { 
+            font-family: "Arial", sans-serif; /* Amazon uses clean sans-serif fonts */
+            margin: 0; 
+            background-color: var(--bg-gray); 
+            color: var(--text-black);
+            padding-bottom: 60px; 
+        }
+
+        .hidden { display: none !important; }
+
+        /* --- WELCOME LANDING PAGE --- */
+        #landing-page { 
+            height: 100vh; width: 100%; 
+            background: linear-gradient(to bottom, var(--amz-light-blue), var(--amz-dark-blue)); 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            color: white; position: fixed; top: 0; left: 0; z-index: 5000; 
+        }
+        #landing-page h1 { font-size: 42px; margin-bottom: 10px; letter-spacing: -1px; }
+        .enter-btn { 
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b); 
+            border: 1px solid #a88734; color: #111; 
+            padding: 14px 40px; font-size: 18px; font-weight: bold; 
+            border-radius: 8px; margin-top: 30px; cursor: pointer; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* --- MAIN HEADER (Professional Look) --- */
+        header { background-color: var(--amz-dark-blue); padding: 12px 15px; position: sticky; top: 0; z-index: 1000; }
+        .top-row { display: flex; justify-content: space-between; align-items: center; color: white; font-weight: 700; font-size: 22px; }
+        .logo-text { letter-spacing: -1px; cursor: pointer; }
+        .logo-text span { color: var(--amz-yellow); }
+        
+        .search-bar { display: flex; margin-top: 12px; height: 40px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .search-bar input { flex: 1; padding: 0 15px; border: none; outline: none; font-size: 16px; }
+        .search-bar button { width: 45px; background-color: var(--amz-yellow); border: none; cursor: pointer; font-size: 20px; }
+        .search-bar button:hover { background-color: #f3a847; }
+
+        /* --- FILTERS (Amazon Style Tabs) --- */
+        .filters { display: flex; overflow-x: auto; background: var(--amz-light-blue); padding: 12px 10px; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+        .filter-btn { background: transparent; border: none; color: white; padding: 8px 15px; margin-right: 5px; font-size: 15px; font-weight: 500; cursor: pointer; position: relative; }
+        .filter-btn.active { font-weight: 700; border-bottom: 3px solid var(--amz-yellow); }
+
+        /* --- PRODUCT GRID & CARDS (Unique Style) --- */
+        #result-text { padding: 15px; font-size: 14px; color: #565959; border-bottom: 1px solid #ddd; background: white; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
+        
+        .card { 
+            background: white; padding: 15px; border-radius: 8px; 
+            display: flex; flex-direction: column; 
+            border: 1px solid #f0f0f0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .card img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; mix-blend-mode: multiply; }
+        .card h3 { 
+            font-size: 15px; font-weight: 400; height: 40px; overflow: hidden; 
+            margin: 0 0 5px 0; color: var(--text-black); line-height: 1.3;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        }
+        .rating-stars { color: #ffa41c; font-size: 13px; letter-spacing: -1px; }
+        .price-tag { font-size: 20px; font-weight: 500; color: var(--text-black); margin-top: 8px; }
+        .price-tag sup { font-size: 12px; }
+        .prime-badge { color: #00a8e1; font-size: 11px; font-weight: bold; margin-bottom: 10px; }
+        
+        .buy-btn { 
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b); 
+            border: 1px solid #a88734;
+            padding: 10px; border-radius: 20px; font-weight: 500; font-size: 14px; 
+            margin-top: auto; width: 100%; cursor: pointer;
+        }
+        .buy-btn:hover { background: linear-gradient(to bottom, #f5d78e, #eeb933); }
+
+        /* --- CHECKOUT MODAL & QR CODE (Pro Style) --- */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 2000; }
+        .modal-content { background: white; width: 92%; max-width: 450px; padding: 25px; border-radius: 12px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 20px; }
+        .modal-header h2 { margin: 0; font-size: 22px; }
+        .close-btn { background: none; border: none; font-size: 28px; color: #999; cursor: pointer; }
+
+        .order-summary { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee; }
+        .input-group label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 5px; margin-top: 15px; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #a6a6a6; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
+        .input-group input:focus { border-color: #e77600; box-shadow: 0 0 3px 2px rgba(228,121,17,.5); outline: none; }
+
+        .qr-section { margin-top: 25px; text-align: center; background: #fffcf5; border: 2px solid #f0c14b; padding: 20px; border-radius: 8px; }
+        .qr-img { width: 220px; height: auto; border-radius: 8px; border: 1px solid #ddd; }
+        
+        .confirm-btn { background: #fa8900; color: white; padding: 15px; width: 100%; border: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin-top: 20px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+    <div id="landing-page">
+        <h1>amazon<span style="color:var(--amz-yellow)">.in</span></h1>
+        <p style="font-size: 18px;">India's Biggest Selection</p>
+        <button class="enter-btn" onclick="enterStore()">Click to Enter Store</button>
+    </div>
+
+    <div id="main-store" class="hidden">
+        <header>
+            <div class="top-row">
+                <div class="logo-text" onclick="location.reload()">amazon<span>.in</span></div>
+                <div>🛒 <span style="font-size:14px">Cart</span></div>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search 1000+ products, brands..." onkeyup="handleSearch()">
+                <button>🔍</button>
+            </div>
+        </header>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCat('All')">All Items</button>
+            <button class="filter-btn" onclick="filterCat('Mobile')">Mobiles</button>
+            <button class="filter-btn" onclick="filterCat('Laptop')">Laptops</button>
+            <button class="filter-btn" onclick="filterCat('Watch')">Smart Watches</button>
+            <button class="filter-btn" onclick="filterCat('Fashion')">Fashion & Clothing</button>
+        </div>
+
+        <div id="result-text">Showing 1500+ Results</div>
+        <div class="grid" id="product-grid"></div>
+    </div>
+
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Complete Your Order</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <div class="order-summary">
+                <p style="margin: 5px 0;">Ordering: <strong id="buy-name">...</strong></p>
+                <p style="margin: 5px 0; font-size: 20px;">Total to Pay: <strong style="color: var(--amz-price-red);" id="buy-price">₹0</strong></p>
+            </div>
+
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="user-name" placeholder="Enter your name" required>
+            </div>
+            <div class="input-group">
+                <label>Mobile Number</label>
+                <input type="tel" id="user-mobile" placeholder="10-digit mobile number" required>
+            </div>
+            
+            <div class="qr-section">
+                <h3 style="margin-top: 0; color: var(--amz-dark-blue);">Scan QR to Pay</h3>
+                <p style="font-size: 13px; color: #555;">Use PhonePe, GPay, or Paytm</p>
+                
+                <img src="pay.jpg" alt="Payment QR Code" class="qr-img" onerror="this.src='https://via.placeholder.com/220x220?text=QR+Image+Not+Found'; this.style.border='2px dashed red';">
+                
+                <p style="font-size: 12px; margin-top: 10px; color: #007185;">Verified Name: +91 9335067990</p>
+            </div>
+
+            <button class="confirm-btn" onclick="confirmOrder()">✅ I Have Paid & Place Order</button>
+            
+            <center style="margin-top: 20px;">
+                <a href="https://wa.me/919335067990" style="color: var(--amz-link-blue); text-decoration: none; font-weight: bold; font-size: 14px;">Need Help? Chat with us</a>
+            </center>
+        </div>
+    </div>
+
+    <script>
+        function enterStore() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('main-store').classList.remove('hidden');
+        }
+
+        // --- ADVANCED UNIQUE ITEM GENERATOR (Lakhs of combinations) ---
+        const imageBank = {
+            'Mobile': ["https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/817WWpaQqbL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/71XNdeEqiLL._AC_UY218_.jpg"],
+            'Laptop': ["https://m.media-amazon.com/images/I/61Qe0euJJZL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/71h9nOTd93L._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/71TPda7cwUL._AC_UY218_.jpg"],
+            'Watch': ["https://m.media-amazon.com/images/I/61TapeOXotL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/61Jt7Jt6+ML._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/61IMRs+o0iL._AC_UY218_.jpg"],
+            'Fashion': ["https://m.media-amazon.com/images/I/71dbx1jLoEL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/61utX8kBDlL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/81q5+3hqf8L._AC_UY218_.jpg"]
+        };
+
+        // Word banks to create unique names
+        const brands = {
+            'Mobile': ['Samsung', 'Apple', 'OnePlus', 'Xiaomi', 'Realme', 'Vivo', 'Oppo', 'Google', 'Nothing'],
+            'Laptop': ['Dell', 'HP', 'Lenovo', 'Asus', 'Acer', 'Apple MacBook', 'MSI'],
+            'Watch': ['Noise', 'Boat', 'FireBoltt', 'Titan', 'Fossil', 'Samsung Watch', 'Apple Watch'],
+            'Fashion': ['Allen Solly', 'Peter England', 'Zara', 'H&M', 'Levis', 'Puma', 'Nike', 'Adidas']
+        };
+        const adjectives = ['Ultra', 'Pro', 'Max', 'Lite', 'Prime', 'Neo', 'Edge', 'Plus', 'Advanced', 'Classic'];
+        const series = ['Galaxy', 'Note', 'Nord', 'Reno', 'Inspiron', 'Pavilion', 'Air', 'ColorFit', 'Wave'];
+
+        let allProducts = [];
+
+        // Function to generate unique items
+        function generateUniqueItems(cat, count) {
+            for(let i=0; i<count; i++) {
+                let brand = brands[cat][Math.floor(Math.random() * brands[cat].length)];
+                let adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+                let ser = series[Math.floor(Math.random() * series.length)];
+                let modelNum = Math.floor(Math.random() * 900) + 100; // Random number like 234, 567
+                let variant = Math.random() > 0.5 ? "5G" : "Edition";
+                
+                // Combining words to make a unique name
+                let uniqueName = `${brand} ${ser} ${adj} ${cat} ${modelNum} ${variant}`;
+                
+                // Random Price logic
+                let priceBase = cat === 'Mobile' || cat === 'Laptop' ? 15000 : 2000;
+                let price = Math.floor(Math.random() * 50000) + priceBase;
+
+                // Random Image
+                let imgList = imageBank[cat];
+                let randomImg = imgList[Math.floor(Math.random() * imgList.length)];
+
+                allProducts.push({
+                    name: uniqueName,
+                    category: cat,
+                    price: price,
+                    rating: (Math.random() * 1.5 + 3.5).toFixed(1), // 3.5 to 5.0 stars
+                    reviews: Math.floor(Math.random() * 5000) + 100,
+                    img: randomImg
+                });
+            }
+        }
+
+        // Generating 1500+ Items (Browser safe limit)
+        generateUniqueItems('Mobile', 400);
+        generateUniqueItems('Laptop', 300);
+        generateUniqueItems('Watch', 400);
+        generateUniqueItems('Fashion', 400);
+        
+        // Shuffle all items
+        allProducts.sort(() => Math.random() - 0.5);
+
+        // --- RENDER FUNCTION (Professional Cards) ---
+        const grid = document.getElementById('product-grid');
+        function showData(items) {
+            grid.innerHTML = "";
+            document.getElementById('result-text').innerText = `Showing ${items.length} results found`;
+            
+            // Show max 80 items initially for performance
+            items.slice(0, 80).forEach(item => {
+                // Format price with Indian commas (e.g., 1,299)
+                let formattedPrice = item.price.toLocaleString('en-IN');
+                
+                grid.innerHTML += `
+                <div class="card">
+                    <img src="${item.img}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                    <div class="rating-stars">⭐⭐⭐⭐☆ <span style="color:#007185; font-size:12px;">(${item.reviews})</span></div>
+                    <div class="price-tag"><sup>₹</sup>${formattedPrice}</div>
+                    <div class="prime-badge">✓prime</div>
+                    <button class="buy-btn" onclick="openCheckout('${item.name}', '${formattedPrice}')">Add to Cart</button>
+                </div>`;
+            });
+        }
+        // Initial load
+        showData(allProducts);
+
+        // --- FILTER & SEARCH ---
+        function filterCat(cat) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            cat === 'All' ? showData(allProducts) : showData(allProducts.filter(i => i.category === cat));
+        }
+        function handleSearch() {
+            let q = document.getElementById('search-input').value.toLowerCase();
+            showData(allProducts.filter(i => i.name.toLowerCase().includes(q)));
+        }
+
+        // --- CHECKOUT & QR LOGIC ---
+        const modal = document.getElementById('checkout-modal');
+        function openCheckout(name, price) {
+            modal.style.display = 'flex';
+            document.getElementById('buy-name').innerText = name;
+            document.getElementById('buy-price').innerText = "₹" + price;
+        }
+        function closeModal() { modal.style.display = 'none'; }
+
+        function confirmOrder() {
+            let name = document.getElementById('user-name').value;
+            let mobile = document.getElementById('user-mobile').value;
+            let item = document.getElementById('buy-name').innerText;
+            let price = document.getElementById('buy-price').innerText;
+            
+            if(!name || !mobile || mobile.length < 10) { 
+                alert("Please enter valid Name and 10-digit Mobile Number."); 
+                return; 
+            }
+
+            // WhatsApp Message with Payment Confirmation
+            let message = `*New Order & Payment Confirmed* %0A%0A👤 Name: ${name}%0A📱 Mobile: ${mobile}%0A📦 Item: ${item}%0A💰 Amount Paid: ${price}%0A%0AUser has scanned QR and confirmed payment. Please verify.`;
+            
+            window.location.href = `https://wa.me/919335067990?text=${message}`;
+        }
+    </script>
+</body>
+</html>
