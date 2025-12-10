@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Store - QR Payment</title>
+    <style>
+        /* --- DESIGN STYLES --- */
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #e3e6e6; padding-bottom: 60px; }
+        .hidden { display: none !important; }
+
+        /* Welcome Page */
+        #landing-page { height: 100vh; width: 100%; background: #232f3e; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; position: fixed; top: 0; left: 0; z-index: 5000; }
+        .enter-btn { background-color: #febd69; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 25px; margin-top: 20px; cursor: pointer; }
+
+        /* Header */
+        header { background-color: #131921; padding: 10px; position: sticky; top: 0; z-index: 1000; }
+        .top-row { display: flex; justify-content: space-between; align-items: center; color: white; font-weight: bold; font-size: 20px; }
+        .search-bar { display: flex; margin-top: 10px; }
+        .search-bar input { flex: 1; padding: 10px; border-radius: 4px 0 0 4px; border: none; outline: none; }
+        .search-bar button { padding: 10px; background-color: #febd69; border: none; border-radius: 0 4px 4px 0; }
+
+        /* Filter Buttons */
+        .filters { display: flex; overflow-x: auto; background: #37475a; padding: 10px; white-space: nowrap; }
+        .filter-btn { background: transparent; border: 1px solid #bbb; color: white; padding: 5px 15px; margin-right: 10px; border-radius: 20px; font-size: 14px; }
+        .filter-btn.active { background: white; color: #111; font-weight: bold; }
+
+        /* Product Grid */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+        .card { background: white; padding: 10px; border-radius: 5px; display: flex; flex-direction: column; }
+        .card img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 8px; }
+        .card h3 { font-size: 13px; height: 34px; overflow: hidden; margin: 0; color: #333; line-height: 1.2; }
+        .price { font-size: 17px; font-weight: bold; color: #B12704; margin-top: 5px; }
+        .buy-btn { background: #ffd814; border: none; padding: 8px; border-radius: 15px; font-weight: bold; margin-top: auto; width: 100%; cursor: pointer; }
+
+        /* PAYMENT MODAL (New Design) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 2000; }
+        .modal-content { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; text-align: center; }
+        
+        .modal input, textarea { width: 90%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px; }
+        
+        /* QR Code Styling */
+        .qr-box { margin: 15px 0; border: 2px dashed #febd69; padding: 10px; background: #fffcf5; }
+        .qr-box img { width: 200px; height: 200px; object-fit: contain; }
+        .upi-text { font-size: 12px; color: #555; margin-top: 5px; }
+
+        .confirm-btn { background: #fa8900; color: white; padding: 12px; width: 100%; border: none; border-radius: 5px; font-weight: bold; font-size: 16px; margin-top: 10px; cursor: pointer; }
+
+    </style>
+</head>
+<body>
+
+    <div id="landing-page">
+        <h1>amazon<span style="color:#febd69">.in</span></h1>
+        <p>Shop with QR Payment</p>
+        <button class="enter-btn" onclick="enterStore()">Shop Now</button>
+    </div>
+
+    <div id="main-store" class="hidden">
+        <header>
+            <div class="top-row">
+                <div onclick="location.reload()">My Store</div>
+                <div>🛒</div>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search items..." onkeyup="handleSearch()">
+                <button></button>
+            </div>
+        </header>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCat('All')">All</button>
+            <button class="filter-btn" onclick="filterCat('Mobile')">Mobiles</button>
+            <button class="filter-btn" onclick="filterCat('Watch')">Watches</button>
+            <button class="filter-btn" onclick="filterCat('Fashion')">Fashion</button>
+        </div>
+
+        <div style="padding: 10px; font-size: 13px;" id="result-text">Showing Products</div>
+        <div class="grid" id="product-grid"></div>
+    </div>
+
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between;">
+                <h3>Payment Details</h3>
+                <button onclick="closeModal()" style="border:none; bg:none; font-size:20px;">✕</button>
+            </div>
+            
+            <p>Item: <b id="buy-name">...</b></p>
+            <p style="color:#B12704; font-weight:bold; font-size:18px;">Amount: <span id="buy-price">0</span></p>
+
+            <input type="text" id="user-name" placeholder="Your Name" required>
+            <input type="tel" id="user-mobile" placeholder="Mobile Number" required>
+            <textarea id="user-address" rows="2" placeholder="Your Address"></textarea>
+            
+            <div class="qr-box">
+                <p style="margin:0; font-weight:bold; font-size:14px;">Scan & Pay Here </p>
+                
+                <img src="pay.jpg" alt="QR Code Loading..." onerror="this.style.display='none'; document.getElementById('qr-error').style.display='block';">
+                
+                <p id="qr-error" style="display:none; color:red; font-size:12px;">QR Code image (pay.jpg) nahi mili.</p>
+                
+                <div class="upi-text">PhonePe / GPay / Paytm Accepted</div>
+            </div>
+
+            <button class="confirm-btn" onclick="confirmOrder()">✅ Payment Done & Place Order</button>
+            
+            <a href="https://wa.me/919335067990" style="display:block; margin-top:10px; color:green; text-decoration:none; font-size:12px;">
+                Dikkat hai? Call 9335067990
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function enterStore() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('main-store').classList.remove('hidden');
+        }
+
+        // --- DATA ---
+        const imageBank = {
+            'Mobile': ["https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/817WWpaQqbL._AC_UY218_.jpg"],
+            'Watch': ["https://m.media-amazon.com/images/I/61TapeOXotL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/61Jt7Jt6+ML._AC_UY218_.jpg"],
+            'Fashion': ["https://m.media-amazon.com/images/I/71dbx1jLoEL._AC_UY218_.jpg", "https://m.media-amazon.com/images/I/61utX8kBDlL._AC_UY218_.jpg"]
+        };
+
+        let allProducts = [];
+        function generateData(cat, count) {
+            for(let i=0; i<count; i++) {
+                let imgList = imageBank[cat] || imageBank['Mobile'];
+                allProducts.push({
+                    name: `New ${cat} ${Math.floor(Math.random()*100)}`,
+                    category: cat,
+                    price: Math.floor(Math.random() * 5000) + 500,
+                    img: imgList[Math.floor(Math.random() * imgList.length)]
+                });
+            }
+        }
+        generateData('Mobile', 50); generateData('Watch', 50); generateData('Fashion', 50);
+        allProducts.sort(() => Math.random() - 0.5);
+
+        // --- RENDER ---
+        const grid = document.getElementById('product-grid');
+        function showData(items) {
+            grid.innerHTML = "";
+            items.slice(0, 40).forEach(item => {
+                grid.innerHTML += `
+                <div class="card">
+                    <img src="${item.img}">
+                    <h3>${item.name}</h3>
+                    <div class="price">₹${item.price}</div>
+                    <button class="buy-btn" onclick="openCheckout('${item.name}', ${item.price})">Buy Now</button>
+                </div>`;
+            });
+        }
+        showData(allProducts);
+
+        function filterCat(cat) { cat === 'All' ? showData(allProducts) : showData(allProducts.filter(i => i.category === cat)); }
+        function handleSearch() { 
+            let q = document.getElementById('search-input').value.toLowerCase();
+            showData(allProducts.filter(i => i.name.toLowerCase().includes(q)));
+        }
+
+        // --- CHECKOUT WITH QR ---
+        const modal = document.getElementById('checkout-modal');
+        function openCheckout(name, price) {
+            modal.style.display = 'flex';
+            document.getElementById('buy-name').innerText = name;
+            document.getElementById('buy-price').innerText = "₹" + price;
+        }
+        function closeModal() { modal.style.display = 'none'; }
+
+        function confirmOrder() {
+            let name = document.getElementById('user-name').value;
+            let item = document.getElementById('buy-name').innerText;
+            let price = document.getElementById('buy-price').innerText;
+            
+            if(!name) { alert("Naam daalna zaroori hai!"); return; }
+
+            // WhatsApp Logic
+            let message = `Hello, maine payment kar diya hai!%0AName: ${name}%0AItem: ${item}%0APrice: ${price}%0APlease check karke bhejein.`;
+            
+            // Redirect to WhatsApp
+            window.location.href = `https://wa.me/919335067990?text=${message}`;
+        }
+    </script>
+</body>
+</html>
