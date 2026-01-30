@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuition Admission Form</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; padding: 20px; max-width: 500px; margin: 0 auto; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; margin-bottom: 25px; color: #333; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 16px; transition: border 0.3s; }
+        input:focus { border-color: #007bff; outline: none; }
+        button { width: 100%; padding: 14px; background: linear-gradient(135deg, #007bff, #0056b3); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        button:hover { transform: translateY(-2px); }
+        button:disabled { background: #ccc; transform: none; cursor: not-allowed; }
+        .message { margin-top: 20px; padding: 15px; border-radius: 6px; text-align: center; font-weight: 500; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .loading { display: none; text-align: center; margin: 10px 0; }
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #007bff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📝 Tuition Admission Form</h2>
+        
+        <form id="admissionForm">
+            <div class="form-group">
+                <label for="studentName">Student Name *</label>
+                <input type="text" id="studentName" placeholder="Enter student's full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="fatherName">Father's Name *</label>
+                <input type="text" id="fatherName" placeholder="Enter father's full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number *</label>
+                <input type="tel" id="mobileNumber" placeholder="Enter 10-digit mobile number" 
+                       pattern="[0-9]{10}" maxlength="10" required>
+                <small style="color: #666; font-size: 13px; margin-top: 5px; display: block;">
+                    Enter 10-digit number without country code
+                </small>
+            </div>
+            
+            <button type="submit" id="submitBtn">
+                Submit Application
+            </button>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 10px;">Processing...</p>
+            </div>
+        </form>
+        
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <script>
+        // REPLACE THIS WITH YOUR DEPLOYED WEB APP URL
+        const WEB_APP_URL = "AKfycbx2yIxnj6SENEMlGPshK05SjzKMclOAHcqywgTiOHc9e2exEPgbxtgn3cM5ogKnehG-";
+        
+        document.getElementById('admissionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const messageDiv = document.getElementById('message');
+            const loadingDiv = document.getElementById('loading');
+            
+            // Get form data
+            const formData = {
+                studentName: document.getElementById('studentName').value.trim(),
+                fatherName: document.getElementById('fatherName').value.trim(),
+                mobileNumber: document.getElementById('mobileNumber').value.trim()
+            };
+            
+            // Validate mobile number
+            if (!/^[0-9]{10}$/.test(formData.mobileNumber)) {
+                showMessage("Please enter a valid 10-digit mobile number", "error");
+                return;
+            }
+            
+            // Validate names
+            if (formData.studentName.length < 2) {
+                showMessage("Please enter valid student name", "error");
+                return;
+            }
+            
+            // Show loading, hide button and message
+            submitBtn.style.display = 'none';
+            loadingDiv.style.display = 'block';
+            messageDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === "success") {
+                    showMessage("✅ Form submitted successfully!<br>WhatsApp notification sent to admin.", "success");
+                    document.getElementById('admissionForm').reset();
+                } else {
+                    showMessage("❌ Error: " + result.message, "error");
+                }
+            } catch (error) {
+                showMessage("❌ Network error. Please check internet and try again.", "error");
+            } finally {
+                // Hide loading, show button
+                loadingDiv.style.display = 'none';
+                submitBtn.style.display = 'block';
+                submitBtn.textContent = "Submit Another Application";
+            }
+        });
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // Input validation on the fly
+        document.getElementById('mobileNumber').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
